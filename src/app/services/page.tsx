@@ -1,15 +1,45 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Boxes } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { Container, Section } from "@/components/ui/section";
-import { Reveal } from "@/components/motion/reveal";
+import { Container, Section, SectionHeader } from "@/components/ui/section";
+import { Reveal, RevealItem } from "@/components/motion/reveal";
 import { PageHeader } from "@/components/blocks/page-header";
 import { CtaSection } from "@/components/blocks/cta-section";
 import { services } from "@/config/services";
+import { solutions } from "@/config/solutions";
 import { pageMetadata, servicesJsonLd } from "@/lib/seo";
+
+// Productized solutions surfaced as clickable cards on the Services page.
+const lms = solutions.find((s) => s.id === "lms")!;
+const crm = solutions.find((s) => s.id === "crm")!;
+
+const solutionCards = [
+  {
+    title: "Solutions",
+    summary:
+      "Explore the full range of productized platforms we build — LMS, CRM, SaaS foundations, training operations, and more.",
+    href: "/solutions",
+    icon: Boxes,
+    highlights: ["Domain-deep platforms", "Owned outright", "Production-ready"],
+  },
+  {
+    title: lms.title,
+    summary: lms.summary,
+    href: lms.href,
+    icon: lms.icon,
+    highlights: lms.highlights,
+  },
+  {
+    title: crm.title,
+    summary: crm.summary,
+    href: crm.href,
+    icon: crm.icon,
+    highlights: crm.highlights,
+  },
+];
 
 export const metadata: Metadata = pageMetadata({
   title: "Services — SaaS, LMS, CRM & Full-Stack Development",
@@ -92,6 +122,47 @@ export default function ServicesPage() {
               </Reveal>
             ))}
           </div>
+        </Container>
+      </Section>
+
+      <Section tone="surface" className="border-y border-border">
+        <Container>
+          <SectionHeader
+            eyebrow="Productized platforms"
+            title="Solutions, LMS & CRM"
+            description="Beyond custom builds, we ship productized platforms you can own outright. Tap a card to explore the full platform."
+          />
+          <Reveal staggerChildren className="grid gap-6 md:grid-cols-3">
+            {solutionCards.map((card) => (
+              <RevealItem key={card.href}>
+                <Link href={card.href} className="group block h-full focus:outline-none">
+                  <Card
+                    variant="interactive"
+                    padding="lg"
+                    className="h-full focus-visible:ring-2 focus-visible:ring-ring group-focus-visible:ring-2 group-focus-visible:ring-ring"
+                  >
+                    <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15">
+                      <card.icon className="size-6 text-primary" aria-hidden />
+                    </div>
+                    <CardTitle className="mt-5 text-xl">{card.title}</CardTitle>
+                    <CardDescription className="mt-2">{card.summary}</CardDescription>
+                    <ul className="mt-5 space-y-2">
+                      {card.highlights.map((h) => (
+                        <li key={h} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <Check className="size-3.5 shrink-0 text-success" aria-hidden />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                    <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                      Explore {card.title}
+                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                    </span>
+                  </Card>
+                </Link>
+              </RevealItem>
+            ))}
+          </Reveal>
         </Container>
       </Section>
 

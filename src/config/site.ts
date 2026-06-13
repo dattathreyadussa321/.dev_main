@@ -30,13 +30,9 @@ export const siteConfig = {
 export const navigation = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
-  { label: "Solutions", href: "/solutions" },
-  { label: "LMS", href: "/solutions/lms" },
-  { label: "CRM", href: "/solutions/crm" },
   { label: "Training", href: "/training" },
-  { label: "AgriTech", href: "/solutions/agritech" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Insights", href: "/blog" },
+  { label: "Blogs", href: "/blog" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ] as const;
