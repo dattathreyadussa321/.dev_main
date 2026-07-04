@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, Check, Loader2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -25,7 +24,6 @@ export function NewsletterForm({ compact = false }: { compact?: boolean }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Something went wrong");
       setStatus("success");
-      setMessage("You're subscribed. Welcome aboard!");
       form.reset();
     } catch (err) {
       setStatus("error");
@@ -35,37 +33,44 @@ export function NewsletterForm({ compact = false }: { compact?: boolean }) {
 
   if (status === "success") {
     return (
-      <p className="flex items-center gap-2 rounded-xl bg-success/10 px-4 py-3 text-sm font-medium text-success">
-        <Check className="size-4" /> {message}
+      <p className="inline-flex items-center gap-3 rounded-xl border border-primary/40 bg-primary/[0.07] px-6 py-3.5 text-[15px] font-bold text-primary">
+        ✓ You&apos;re on the list
       </p>
     );
   }
 
   return (
     <form onSubmit={onSubmit} className="space-y-2">
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2.5">
         <label htmlFor="newsletter-email" className="sr-only">
           Email address
         </label>
-        <Input
+        <input
           id="newsletter-email"
           name="email"
           type="email"
           required
-          placeholder={compact ? "your@email.com" : "you@company.com"}
+          placeholder="you@email.com"
           autoComplete="email"
-          className={compact ? "h-9 text-sm" : "h-11"}
+          className={
+            compact
+              ? "min-w-0 flex-1 rounded-xl border border-white/[0.14] bg-white/[0.04] px-4 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-primary focus:bg-primary/[0.04]"
+              : "min-w-[220px] flex-1 rounded-xl border border-white/[0.14] bg-white/[0.04] px-[18px] py-3.5 text-[15px] text-foreground outline-none transition-colors focus:border-primary focus:bg-primary/[0.04] sm:min-w-[260px]"
+          }
         />
         <button
           type="submit"
-          aria-label="Subscribe"
           disabled={status === "loading"}
-          className={`grid shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground transition-transform hover:scale-105 disabled:opacity-60 ${compact ? "size-9" : "size-11"}`}
+          className={
+            compact
+              ? "rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:-translate-y-0.5 disabled:opacity-60"
+              : "rounded-xl bg-primary px-6 py-3.5 text-[15px] font-bold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(83,243,207,0.4)] disabled:opacity-60"
+          }
         >
           {status === "loading" ? (
-            <Loader2 className={compact ? "size-3.5 animate-spin" : "size-4 animate-spin"} />
+            <Loader2 className="size-4 animate-spin" aria-label="Subscribing…" />
           ) : (
-            <ArrowRight className={compact ? "size-3.5" : "size-4"} />
+            "Subscribe →"
           )}
         </button>
       </div>
