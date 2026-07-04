@@ -3,18 +3,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[14px] font-medium transition-all duration-200 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0",
+          "bg-primary font-bold text-primary-foreground shadow-[0_0_40px_rgba(83,243,207,0.3)] hover:shadow-[0_0_60px_rgba(83,243,207,0.5)] hover:-translate-y-0.5 active:translate-y-0",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-lg shadow-secondary/20 hover:-translate-y-0.5 active:translate-y-0",
+          "bg-secondary font-bold text-secondary-foreground shadow-[0_0_30px_rgba(44,197,178,0.25)] hover:-translate-y-0.5 active:translate-y-0",
         outline:
-          "border border-border bg-transparent text-foreground hover:bg-muted hover:border-ring/40",
-        ghost: "text-foreground hover:bg-muted",
-        glass: "glass text-foreground hover:border-ring/40",
+          "border border-white/20 bg-white/[0.03] text-foreground hover:border-primary/50 hover:bg-primary/[0.06]",
+        mint: "border border-primary/35 bg-transparent font-bold text-primary hover:bg-primary/10",
+        ghost: "text-foreground hover:bg-white/[0.06]",
+        glass: "glass text-foreground hover:border-primary/40",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
