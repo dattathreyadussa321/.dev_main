@@ -27,35 +27,36 @@ export const siteConfig = {
   ],
 } as const;
 
+/** Ekkalavya is a separate product — every Ekkalavya CTA redirects here. */
+export const ekkalavyaUrl = "https://code.patashala.dev";
+
 export const navigation = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Training", href: "/training" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Blogs", href: "/blog" },
-  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
 export const footerNavigation = {
-  services: [
-    { label: "SaaS Development", href: "/services#saas" },
-    { label: "Full-Stack Web Apps", href: "/services#fullstack" },
-    { label: "LMS Development", href: "/services#lms" },
-    { label: "CRM Development", href: "/services#crm" },
-    { label: "UI/UX Design", href: "/services#uiux" },
-    { label: "MVP Development", href: "/services#mvp" },
+  pages: [
+    { label: "Home", href: "/" },
+    { label: "Services", href: "/services" },
+    { label: "Training", href: "/training" },
+    { label: "Blog", href: "/blog" },
+    { label: "Contact", href: "/contact" },
+    { label: "About", href: "/about" },
+    { label: "Portfolio", href: "/portfolio" },
   ],
-  solutions: [
+  platforms: [
+    { label: "Ekkalavya ✦", href: ekkalavyaUrl, external: true },
     { label: "Advanced LMS", href: "/solutions/lms" },
     { label: "CRM for EdTech", href: "/solutions/crm" },
     { label: "Agri Rover", href: "/solutions/agritech" },
-    { label: "Training Programs", href: "/training" },
   ],
-  company: [
-    { label: "About", href: "/about" },
-    { label: "Portfolio", href: "/portfolio" },
-    { label: "Insights", href: "/blog" },
-    { label: "Contact", href: "/contact" },
+  social: [
+    { label: "LinkedIn", href: "https://linkedin.com/company/patashaladotdev", external: true },
+    { label: "X / Twitter", href: "https://x.com/patashala_dev", external: true },
+    { label: "Instagram", href: "https://instagram.com/patashala.dev", external: true },
   ],
 } as const;
