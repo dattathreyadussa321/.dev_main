@@ -144,8 +144,8 @@ export function HeroScene() {
     };
   }, [prefersReduced]);
 
-  if (prefersReduced) return null;
-
+  // Always render the canvas so server and client markup match — reduced
+  // motion and missing WebGL are handled inside the effect (canvas stays blank).
   return (
     <canvas
       ref={canvasRef}
