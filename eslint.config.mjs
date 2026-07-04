@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Static design export used as the redesign reference — not app code.
+    "Patashala Website Redesign/**",
   ]),
 ]);
 

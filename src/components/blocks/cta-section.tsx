@@ -1,7 +1,4 @@
 import Link from "next/link";
-import { ArrowRight, CalendarCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Container, Section } from "@/components/ui/section";
 import { Reveal } from "@/components/motion/reveal";
 
 interface CtaSectionProps {
@@ -17,38 +14,37 @@ interface CtaSectionProps {
 export function CtaSection({
   title = "Let's build something your users will rely on",
   description = "Tell us about your product, platform, or training goals. We'll respond within one business day with an honest read on scope, timeline, and budget.",
-  primaryLabel = "Book a Consultation",
+  primaryLabel = "Book a consultation",
   primaryHref = "/contact",
-  secondaryLabel = "Explore Services",
+  secondaryLabel = "Explore services",
   secondaryHref = "/services",
 }: CtaSectionProps) {
   return (
-    <Section className="pb-24">
-      <Container>
-        <Reveal>
-          <div className="glow-orbs relative overflow-hidden rounded-3xl border border-border bg-card px-6 py-16 text-center shadow-xl sm:px-12 sm:py-20">
-            <div className="bg-grid absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_60%_70%_at_50%_50%,black,transparent)]" aria-hidden />
-            <div className="relative mx-auto max-w-2xl">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {description}
-              </p>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-                <Button asChild size="lg">
-                  <Link href={primaryHref}>
-                    <CalendarCheck aria-hidden /> {primaryLabel}
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg">
-                  <Link href={secondaryHref}>
-                    {secondaryLabel} <ArrowRight aria-hidden />
-                  </Link>
-                </Button>
-              </div>
-            </div>
+    <div className="px-6 pb-8 pt-4">
+      <div className="mx-auto max-w-[1200px]">
+        <Reveal className="rounded-[28px] border border-white/10 bg-[radial-gradient(ellipse_at_50%_-20%,rgba(44,197,178,0.2),transparent_60%),#0B0D10] px-8 py-20 text-center">
+          <h2 className="mx-auto max-w-3xl font-display text-[clamp(34px,5vw,60px)] font-semibold leading-[1.05]">
+            {title}
+          </h2>
+          <p className="mx-auto mt-4 max-w-[480px] leading-relaxed text-foreground/60">
+            {description}
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href={primaryHref}
+              className="rounded-[14px] bg-primary px-[30px] py-4 font-bold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_0_50px_rgba(83,243,207,0.45)]"
+            >
+              {primaryLabel}
+            </Link>
+            <Link
+              href={secondaryHref}
+              className="rounded-[14px] border border-white/[0.18] px-[30px] py-4 font-medium text-foreground transition-colors hover:border-primary/50"
+            >
+              {secondaryLabel}
+            </Link>
           </div>
         </Reveal>
-      </Container>
-    </Section>
+      </div>
+    </div>
   );
 }

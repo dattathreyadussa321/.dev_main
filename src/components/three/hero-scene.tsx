@@ -13,15 +13,10 @@ import { isWebGLAvailable } from "./three-utils";
 export function HeroScene() {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const prefersReduced = useReducedMotion();
-  const [enabled, setEnabled] = React.useState(false);
-
-  React.useEffect(() => {
-    setEnabled(isWebGLAvailable());
-  }, []);
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !enabled || prefersReduced) return;
+    if (!canvas || prefersReduced || !isWebGLAvailable()) return;
 
     let raf = 0;
     let alive = true;
@@ -147,7 +142,7 @@ export function HeroScene() {
       cancelAnimationFrame(raf);
       cleanupScene?.();
     };
-  }, [enabled, prefersReduced]);
+  }, [prefersReduced]);
 
   if (prefersReduced) return null;
 
