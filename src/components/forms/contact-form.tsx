@@ -4,26 +4,35 @@ import * as React from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2, Send, TriangleAlert } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input, Textarea, Select, Label, FieldError } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
+import { Input, Textarea, Label, FieldError } from "@/components/ui/input";
 import { contactSchema, type ContactInput } from "@/lib/validations";
-import { serviceInterestOptions, budgetOptions, timelineOptions } from "@/config/content";
+import { cn } from "@/lib/utils";
 
-/** Map ?service=lms style params to dropdown values for pre-selection. */
-const serviceParamMap: Record<string, (typeof serviceInterestOptions)[number]> = {
-  saas: "SaaS Application Development",
-  fullstack: "Full-Stack Web App Development",
-  lms: "Custom LMS Development",
-  crm: "Custom CRM Development",
-  edtech: "EdTech Product Development",
-  uiux: "UI/UX Design & Frontend",
-  backend: "API / Backend Development",
-  mvp: "MVP Development",
-  modernization: "Product Modernization",
-  cloud: "Cloud Deployment & Maintenance",
-  training: "Software Training Programs",
-  agritech: "AgriTech / Agri Rover",
+/* Interest chips from the redesign prototype — submitted as `serviceInterest`. */
+const interestOptions = [
+  "A project / platform",
+  "Ekkalavya (students)",
+  "Training programs",
+  "LMS / CRM",
+  "Something else",
+] as const;
+
+/** Map ?service=lms style params to an interest chip for pre-selection. */
+const serviceParamMap: Record<string, (typeof interestOptions)[number]> = {
+  saas: "A project / platform",
+  fullstack: "A project / platform",
+  lms: "LMS / CRM",
+  crm: "LMS / CRM",
+  edtech: "A project / platform",
+  uiux: "A project / platform",
+  backend: "A project / platform",
+  mvp: "A project / platform",
+  modernization: "A project / platform",
+  cloud: "A project / platform",
+  training: "Training programs",
+  agritech: "Something else",
+  ekkalavya: "Ekkalavya (students)",
 };
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -32,16 +41,16 @@ export function ContactForm() {
   const searchParams = useSearchParams();
   const [status, setStatus] = React.useState<Status>("idle");
   const [serverError, setServerError] = React.useState("");
-  const [isOtherService, setIsOtherService] = React.useState(false);
-  const [isCustomBudget, setIsCustomBudget] = React.useState(false);
+  const [sentName, setSentName] = React.useState("");
 
-  const preselected = serviceParamMap[searchParams.get("service") ?? ""];
+  const preselected = serviceParamMap[searchParams.get("service") ?? ""] ?? interestOptions[0];
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
@@ -51,9 +60,7 @@ export function ContactForm() {
     },
   });
 
-  // Destructure to intercept onChange while keeping RHF's ref/name/onBlur
-  const { onChange: onServiceSelectChange, ...serviceSelectRegister } = register("serviceInterest");
-  const { onChange: onBudgetSelectChange, ...budgetSelectRegister } = register("budget");
+  const interest = watch("serviceInterest");
 
   async function onSubmit(data: ContactInput) {
     setStatus("loading");
@@ -66,10 +73,9 @@ export function ContactForm() {
       });
       const payload = await res.json();
       if (!res.ok) throw new Error(payload.error ?? "Something went wrong.");
+      setSentName(data.name);
       setStatus("success");
-      reset();
-      setIsOtherService(false);
-      setIsCustomBudget(false);
+      reset({ serviceInterest: preselected, website: "" });
     } catch (err) {
       setStatus("error");
       setServerError(
@@ -80,34 +86,72 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div
-        role="status"
-        className="rounded-2xl border border-success/30 bg-success/10 p-8 text-center"
-      >
-        <CheckCircle2 className="mx-auto size-10 text-success" aria-hidden />
-        <h3 className="mt-4 text-xl font-semibold">Message received — thank you!</h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          We&apos;ll review your project details and reply within one business day with an honest
-          read on scope, timeline, and next steps.
+      <div role="status" className="px-4 py-16 text-center">
+        <div className="mx-auto flex size-16 items-center justify-center rounded-full border-[1.5px] border-primary bg-primary/[0.12] text-[26px] text-primary">
+          ✓
+        </div>
+        <div className="mt-6 font-display text-[26px] font-semibold">Message sent</div>
+        <p className="mt-2.5 text-[15px] leading-relaxed text-foreground/60">
+          Thanks, {sentName || "friend"}. We&apos;ll reply within one business day.
         </p>
-        <Button variant="outline" className="mt-6" onClick={() => setStatus("idle")}>
-          Send another message
-        </Button>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="mt-7 rounded-xl border border-white/[0.16] bg-white/[0.06] px-[22px] py-3 text-sm font-bold text-foreground transition-colors hover:border-primary/50"
+        >
+          Send another
+        </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate className="grid gap-[18px]">
+      <div className="font-display text-[22px] font-semibold">Start the conversation</div>
+
       {/* Honeypot — hidden from real users, traps naive bots */}
       <div className="absolute -left-[9999px] top-auto" aria-hidden>
         <label htmlFor="website">Leave this field empty</label>
         <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor="name">Full name *</Label>
+      {/* Interest chips → serviceInterest */}
+      <div className="grid gap-2">
+        <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-foreground/50">
+          I&apos;m interested in
+        </span>
+        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="I'm interested in">
+          {interestOptions.map((label) => {
+            const on = interest === label;
+            return (
+              <button
+                key={label}
+                type="button"
+                role="radio"
+                aria-checked={on}
+                onClick={() =>
+                  setValue("serviceInterest", label, { shouldValidate: true })
+                }
+                className={cn(
+                  "rounded-full px-4 py-[9px] text-[13.5px] transition-colors",
+                  on
+                    ? "border border-primary/70 bg-primary/[0.12] font-bold text-primary"
+                    : "border border-white/[0.14] bg-white/[0.03] font-normal text-foreground/70 hover:border-primary/50",
+                )}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        <FieldError message={errors.serviceInterest?.message} />
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-2">
+          <Label htmlFor="name" className="mb-0">
+            Name
+          </Label>
           <Input
             id="name"
             autoComplete="name"
@@ -117,13 +161,15 @@ export function ContactForm() {
           />
           <FieldError message={errors.name?.message} />
         </div>
-        <div>
-          <Label htmlFor="email">Email *</Label>
+        <div className="grid gap-2">
+          <Label htmlFor="email" className="mb-0">
+            Email
+          </Label>
           <Input
             id="email"
             type="email"
             autoComplete="email"
-            placeholder="you@company.com"
+            placeholder="you@email.com"
             aria-invalid={!!errors.email}
             {...register("email")}
           />
@@ -131,9 +177,11 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor="phone">Phone *</Label>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-2">
+          <Label htmlFor="phone" className="mb-0">
+            Phone
+          </Label>
           <Input
             id="phone"
             type="tel"
@@ -144,8 +192,10 @@ export function ContactForm() {
           />
           <FieldError message={errors.phone?.message} />
         </div>
-        <div>
-          <Label htmlFor="company">Company / Institute (optional)</Label>
+        <div className="grid gap-2">
+          <Label htmlFor="company" className="mb-0">
+            Company <span className="normal-case text-foreground/35">(optional)</span>
+          </Label>
           <Input
             id="company"
             autoComplete="organization"
@@ -155,125 +205,15 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div>
-        <Label htmlFor="serviceInterest">What do you need? *</Label>
-        {!isOtherService ? (
-          <Select
-            id="serviceInterest"
-            aria-invalid={!!errors.serviceInterest}
-            defaultValue={preselected ?? ""}
-            {...serviceSelectRegister}
-            onChange={(e) => {
-              void onServiceSelectChange(e);
-              if (e.target.value === "Other") {
-                setIsOtherService(true);
-                setValue("serviceInterest", "");
-              }
-            }}
-          >
-            <option value="" disabled>
-              Select a service
-            </option>
-            {serviceInterestOptions.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </Select>
-        ) : (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2">
-              <span className="text-sm text-muted-foreground">Other – describe what you need</span>
-              <button
-                type="button"
-                className="text-xs text-primary transition-colors hover:underline"
-                onClick={() => {
-                  setIsOtherService(false);
-                  setValue("serviceInterest", "");
-                }}
-              >
-                ← Back to list
-              </button>
-            </div>
-            <Input
-              id="serviceInterest"
-              placeholder="e.g. AI chatbot integration, custom mobile app, data pipeline…"
-              aria-invalid={!!errors.serviceInterest}
-              autoFocus
-              {...register("serviceInterest")}
-            />
-          </div>
-        )}
-        <FieldError message={errors.serviceInterest?.message} />
-      </div>
-
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <Label htmlFor="budget">Budget range (optional)</Label>
-          {!isCustomBudget ? (
-            <Select
-              id="budget"
-              defaultValue=""
-              {...budgetSelectRegister}
-              onChange={(e) => {
-                if (e.target.value === "__custom__") {
-                  setIsCustomBudget(true);
-                  setValue("budget", "");
-                } else {
-                  void onBudgetSelectChange(e);
-                }
-              }}
-            >
-              <option value="">Select a range</option>
-              {budgetOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-              <option value="__custom__">Custom…</option>
-            </Select>
-          ) : (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2">
-                <span className="text-xs text-muted-foreground">Enter your budget</span>
-                <button
-                  type="button"
-                  className="text-xs text-primary transition-colors hover:underline"
-                  onClick={() => {
-                    setIsCustomBudget(false);
-                    setValue("budget", "");
-                  }}
-                >
-                  ← Back
-                </button>
-              </div>
-              <Input
-                id="budget"
-                placeholder="e.g. ₹50K–75K, equity deal, monthly retainer…"
-                autoFocus
-                {...register("budget")}
-              />
-            </div>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="timeline">Timeline (optional)</Label>
-          <Select id="timeline" defaultValue="" {...register("timeline")}>
-            <option value="">Select a timeline</option>
-            {timelineOptions.map((opt) => (
-              <option key={opt} value={opt}>
-                {opt}
-              </option>
-            ))}
-          </Select>
-        </div>
-      </div>
-
-      <div>
-        <Label htmlFor="message">Tell us about your project *</Label>
+      <div className="grid gap-2">
+        <Label htmlFor="message" className="mb-0">
+          Message
+        </Label>
         <Textarea
           id="message"
-          placeholder="What are you building? Who is it for? What does success look like?"
+          rows={5}
+          className="min-h-0"
+          placeholder="Tell us about your product, institute, or placement goals…"
           aria-invalid={!!errors.message}
           {...register("message")}
         />
@@ -283,26 +223,27 @@ export function ContactForm() {
       {status === "error" && (
         <p
           role="alert"
-          className="flex items-center gap-2 rounded-xl bg-destructive/10 px-4 py-3 text-sm font-medium text-destructive"
+          className="rounded-[10px] border border-destructive/30 bg-destructive/[0.08] px-3.5 py-2.5 text-[13.5px] text-destructive"
         >
-          <TriangleAlert className="size-4 shrink-0" aria-hidden />
           {serverError}
         </p>
       )}
 
-      <Button type="submit" size="lg" disabled={status === "loading"} className="w-full sm:w-auto">
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="inline-flex items-center justify-center gap-2 rounded-[14px] bg-primary p-4 text-base font-bold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-[0_0_44px_rgba(83,243,207,0.4)] disabled:pointer-events-none disabled:opacity-60"
+      >
         {status === "loading" ? (
           <>
-            <Loader2 className="animate-spin" aria-hidden /> Sending…
+            <Loader2 className="size-4 animate-spin" aria-hidden /> Sending…
           </>
         ) : (
-          <>
-            <Send aria-hidden /> Send Message
-          </>
+          <>Send message →</>
         )}
-      </Button>
-      <p className="text-xs text-muted-foreground">
-        We respond within one business day. Your details stay with us — no spam, no sharing.
+      </button>
+      <p className="text-center text-xs text-foreground/40">
+        Replies within one business day. No spam, ever.
       </p>
     </form>
   );

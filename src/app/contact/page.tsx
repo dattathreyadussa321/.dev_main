@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { CalendarCheck, Clock, Mail, MapPin } from "lucide-react";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import { Container, Section } from "@/components/ui/section";
-import { Reveal } from "@/components/motion/reveal";
-import { PageHeader } from "@/components/blocks/page-header";
 import { ContactForm } from "@/components/forms/contact-form";
 import { siteConfig } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
@@ -16,85 +11,86 @@ export const metadata: Metadata = pageMetadata({
   path: "/contact",
 });
 
-const expectations = [
-  {
-    Icon: Clock,
-    title: "Reply within one business day",
-    text: "A real engineer reads your message — not an autoresponder.",
-  },
-  {
-    Icon: CalendarCheck,
-    title: "A free consultation call",
-    text: "We map your goals to a realistic scope and give you honest options.",
-  },
-  {
-    Icon: Mail,
-    title: "A clear written proposal",
-    text: "Scope, timeline, budget, and the team you'll work with — in writing.",
-  },
-];
+const infoRows = [
+  { label: "Email", value: siteConfig.email, mono: true, href: `mailto:${siteConfig.email}` },
+  { label: "Base", value: siteConfig.location, mono: false },
+] as const;
+
+const socialLinks = [
+  { label: "LinkedIn", href: siteConfig.social.linkedin },
+  { label: "X", href: siteConfig.social.x },
+  { label: "Instagram", href: siteConfig.social.instagram },
+] as const;
 
 export default function ContactPage() {
   return (
-    <>
-      <PageHeader
-        badge="Contact"
-        title={
-          <>
-            Let&apos;s talk about <span className="text-gradient">your build</span>
-          </>
-        }
-        description="Whether it's a SaaS product, an LMS for your institute, a CRM for your admissions team, or a training enquiry — start with one message."
+    <div className="relative min-h-screen overflow-hidden px-6 pb-[90px] pt-44">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-[10%] -top-[25%] size-[700px] rounded-full bg-[radial-gradient(circle,rgba(44,197,178,0.13),transparent_65%)]"
       />
+      <div className="relative mx-auto grid max-w-[1200px] items-start gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-[72px]">
+        {/* ── Left: intro + info ─────────────────────────────────── */}
+        <div>
+          <div className="eyebrow mb-5">Contact</div>
+          <h1 className="font-display text-[clamp(44px,6vw,76px)] font-semibold leading-none tracking-[-0.03em]">
+            Tell us what you&apos;re <span className="text-gradient">building</span>
+          </h1>
+          <p className="mt-[22px] max-w-[440px] text-[17px] leading-relaxed text-foreground/65">
+            Product, platform or placement goals — we reply within one business day with an honest
+            read on scope, timeline and budget.
+          </p>
 
-      <Section className="pt-4 sm:pt-4 lg:pt-4">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-5">
-            {/* Form */}
-            <Reveal className="lg:col-span-3">
-              <Card variant="elevated" padding="lg">
-                <Suspense fallback={<FormSkeleton />}>
-                  <ContactForm />
-                </Suspense>
-              </Card>
-            </Reveal>
-
-            {/* Sidebar */}
-            <Reveal delay={0.1} className="space-y-5 lg:col-span-2">
-              {expectations.map(({ Icon, title, text }) => (
-                <Card key={title} variant="glass">
-                  <div className="flex gap-4">
-                    <div className="grid size-10 shrink-0 place-items-center rounded-lg bg-primary/10">
-                      <Icon className="size-5 text-primary" aria-hidden />
-                    </div>
-                    <div>
-                      <CardTitle className="text-base">{title}</CardTitle>
-                      <CardDescription className="mt-1">{text}</CardDescription>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-              <Card variant="gradient">
-                <CardTitle className="text-base">Prefer email?</CardTitle>
-                <CardDescription className="mt-2">
-                  Write to us directly at{" "}
+          <div className="mt-10 grid max-w-[400px] gap-3.5">
+            {infoRows.map((row) => (
+              <div
+                key={row.label}
+                className="flex items-center gap-3.5 rounded-2xl border border-white/[0.09] bg-white/[0.02] px-5 py-[18px]"
+              >
+                <span className="w-16 font-mono text-[11px] uppercase tracking-[0.12em] text-foreground/45">
+                  {row.label}
+                </span>
+                {"href" in row && row.href ? (
                   <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="font-medium text-primary underline-offset-4 hover:underline"
+                    href={row.href}
+                    className="font-mono text-sm text-primary transition-colors hover:text-foreground"
                   >
-                    {siteConfig.email}
+                    {row.value}
                   </a>
-                </CardDescription>
-                <CardDescription className="mt-3 flex items-center gap-1.5">
-                  <MapPin className="size-4 text-primary" aria-hidden />
-                  {siteConfig.location}
-                </CardDescription>
-              </Card>
-            </Reveal>
+                ) : (
+                  <span className="text-[14.5px] text-foreground/80">{row.value}</span>
+                )}
+              </div>
+            ))}
+            <div className="flex items-center gap-3.5 rounded-2xl border border-white/[0.09] bg-white/[0.02] px-5 py-[18px]">
+              <span className="w-16 font-mono text-[11px] uppercase tracking-[0.12em] text-foreground/45">
+                Social
+              </span>
+              <span className="flex gap-3.5 text-sm">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground/75 transition-colors hover:text-primary"
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </span>
+            </div>
           </div>
-        </Container>
-      </Section>
-    </>
+        </div>
+
+        {/* ── Right: form card ───────────────────────────────────── */}
+        <div className="relative rounded-3xl border border-white/10 bg-white/[0.025] p-6 sm:p-10">
+          <Suspense fallback={<FormSkeleton />}>
+            <ContactForm />
+          </Suspense>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -103,10 +99,10 @@ function FormSkeleton() {
   return (
     <div className="animate-pulse space-y-5" aria-hidden>
       {[...Array(4)].map((_, i) => (
-        <div key={i} className="h-12 rounded-xl bg-muted" />
+        <div key={i} className="h-12 rounded-xl bg-white/[0.05]" />
       ))}
-      <div className="h-32 rounded-xl bg-muted" />
-      <div className="h-12 w-40 rounded-full bg-muted" />
+      <div className="h-32 rounded-xl bg-white/[0.05]" />
+      <div className="h-14 rounded-[14px] bg-white/[0.05]" />
     </div>
   );
 }
