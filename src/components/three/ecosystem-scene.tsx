@@ -3,22 +3,16 @@
 import * as React from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-
-/**
- * Floating digital ecosystem: orbiting nodes (SaaS, LMS, CRM, Training,
- * Agri Rover, Analytics, Cloud) connected to a glowing core.
- * Kept deliberately light: no postprocessing, no heavy geometry,
- * capped DPR, frameloop pauses when offscreen via <Canvas> defaults.
- */
+import { createThreeRenderer } from "./three-utils";
 
 const NODES = [
-  { label: "SaaS", color: "#818cf8", radius: 2.5, speed: 0.22, tilt: 0.2, phase: 0 },
-  { label: "LMS", color: "#34d399", radius: 2.9, speed: 0.18, tilt: -0.35, phase: 1.1 },
-  { label: "CRM", color: "#f472b6", radius: 2.6, speed: 0.26, tilt: 0.5, phase: 2.2 },
-  { label: "Training", color: "#fbbf24", radius: 3.2, speed: 0.15, tilt: -0.15, phase: 3.1 },
-  { label: "Agri Rover", color: "#4ade80", radius: 3.5, speed: 0.12, tilt: 0.65, phase: 4.2 },
-  { label: "Analytics", color: "#22d3ee", radius: 2.3, speed: 0.3, tilt: -0.55, phase: 5.0 },
-  { label: "Cloud", color: "#a78bfa", radius: 3.0, speed: 0.2, tilt: 0.05, phase: 5.9 },
+  { label: "SaaS",      color: "#818cf8", radius: 2.5, speed: 0.22, tilt:  0.20, phase: 0.0 },
+  { label: "LMS",       color: "#34d399", radius: 2.9, speed: 0.18, tilt: -0.35, phase: 1.1 },
+  { label: "CRM",       color: "#f472b6", radius: 2.6, speed: 0.26, tilt:  0.50, phase: 2.2 },
+  { label: "Training",  color: "#fbbf24", radius: 3.2, speed: 0.15, tilt: -0.15, phase: 3.1 },
+  { label: "Agri Rover",color: "#4ade80", radius: 3.5, speed: 0.12, tilt:  0.65, phase: 4.2 },
+  { label: "Analytics", color: "#22d3ee", radius: 2.3, speed: 0.30, tilt: -0.55, phase: 5.0 },
+  { label: "Cloud",     color: "#a78bfa", radius: 3.0, speed: 0.20, tilt:  0.05, phase: 5.9 },
 ] as const;
 
 function nodePosition(node: (typeof NODES)[number], t: number, out: THREE.Vector3) {
@@ -41,7 +35,7 @@ function OrbitingNode({ node }: { node: (typeof NODES)[number] }) {
   return (
     <group ref={group}>
       <mesh>
-        <sphereGeometry args={[0.13, 20, 20]} />
+        <sphereGeometry args={[0.13, 16, 16]} />
         <meshStandardMaterial
           color={node.color}
           emissive={node.color}
@@ -49,16 +43,14 @@ function OrbitingNode({ node }: { node: (typeof NODES)[number] }) {
           toneMapped={false}
         />
       </mesh>
-      {/* soft halo */}
       <mesh scale={2.4}>
-        <sphereGeometry args={[0.13, 12, 12]} />
+        <sphereGeometry args={[0.13, 8, 8]} />
         <meshBasicMaterial color={node.color} transparent opacity={0.12} toneMapped={false} />
       </mesh>
     </group>
   );
 }
 
-/** Lines from the core to each node, rebuilt cheaply each frame. */
 function ConnectionLines() {
   const ref = React.useRef<THREE.LineSegments>(null);
   const positions = React.useMemo(() => new Float32Array(NODES.length * 2 * 3), []);
@@ -72,7 +64,6 @@ function ConnectionLines() {
   useFrame(({ clock }) => {
     NODES.forEach((node, i) => {
       nodePosition(node, clock.elapsedTime, v);
-      // segment start at origin (core), end at node
       positions.set([0, 0, 0, v.x, v.y, v.z], i * 6);
     });
     const attr = ref.current?.geometry.attributes.position;
@@ -106,21 +97,20 @@ function Core() {
         />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.42, 24, 24]} />
+        <sphereGeometry args={[0.42, 16, 16]} />
         <meshStandardMaterial color="#818cf8" emissive="#818cf8" emissiveIntensity={1.1} toneMapped={false} />
       </mesh>
     </group>
   );
 }
 
-function Particles({ count = 140 }: { count?: number }) {
+function Particles({ count }: { count: number }) {
   const positions = React.useMemo(() => {
     const arr = new Float32Array(count * 3);
-    // deterministic pseudo-random spread (avoids hydration variance)
     for (let i = 0; i < count; i++) {
       const a = i * 2.399963; // golden angle
       const r = 3.4 + (i % 17) * 0.13;
-      arr[i * 3] = Math.cos(a) * r;
+      arr[i * 3]     = Math.cos(a) * r;
       arr[i * 3 + 1] = (((i * 7919) % 100) / 100 - 0.5) * 4.4;
       arr[i * 3 + 2] = Math.sin(a) * r;
     }
@@ -140,14 +130,16 @@ function Particles({ count = 140 }: { count?: number }) {
   );
 }
 
-function Scene() {
+function Scene({ quality }: { quality: "high" | "low" }) {
   const group = React.useRef<THREE.Group>(null);
-  // gentle parallax on pointer move
+  const particleCount = quality === "high" ? 140 : 60;
+
   useFrame(({ pointer }) => {
     if (!group.current) return;
     group.current.rotation.y += (pointer.x * 0.25 - group.current.rotation.y) * 0.04;
     group.current.rotation.x += (-pointer.y * 0.15 - group.current.rotation.x) * 0.04;
   });
+
   return (
     <group ref={group}>
       <ambientLight intensity={0.5} />
@@ -158,21 +150,21 @@ function Scene() {
       {NODES.map((n) => (
         <OrbitingNode key={n.label} node={n} />
       ))}
-      <Particles />
+      <Particles count={particleCount} />
     </group>
   );
 }
 
-export default function EcosystemScene() {
+export default function EcosystemScene({ quality = "high" }: { quality?: "high" | "low" }) {
   return (
     <Canvas
-      dpr={[1, 1.75]}
+      dpr={quality === "high" ? [1, 1.75] : [1, 1.2]}
       camera={{ position: [0, 0.6, 7.2], fov: 45 }}
-      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      gl={createThreeRenderer}
       aria-hidden
       className="!pointer-events-auto"
     >
-      <Scene />
+      <Scene quality={quality} />
     </Canvas>
   );
 }

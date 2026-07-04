@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#08090B;color:#F2F4F3;font-family:'Satoshi',system-ui,sans-serif;-webkit-font-smoothing:antialiased;--pd-accent:#2CC5B2;--pd-mint:#53F3CF;--pd-violet:#A78BFA}
+*{box-sizing:border-box}
+a{color:inherit}
+input::placeholder,textarea::placeholder{color:rgba(242,244,243,.35)}
+::selection{background:#2CC5B2;color:#08090B}
+</style>
+</helmet>
+
+<!-- ══ NAV ══ -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:16px 24px 0">
+  <div style="width:100%;max-width:1200px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 12px 12px 20px;background:rgba(10,11,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);border-radius:16px">
+    <a href="Home.dc.html" style="text-decoration:none;display:flex;align-items:baseline;gap:2px;font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.02em"><span style="color:#F2F4F3">patashala</span><span style="color:var(--pd-accent)">.dev</span></a>
+    <div style="display:flex;align-items:center;gap:4px">
+      <a href="Home.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Home</a>
+      <a href="Services.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Services</a>
+      <a href="Training.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Training</a>
+      <a href="Blog.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Blog</a>
+      <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:#F2F4F3;background:rgba(255,255,255,.06)">Contact</a>
+    </div>
+    <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:700;color:#08090B;background:var(--pd-mint);padding:10px 18px;border-radius:10px;box-shadow:0 0 24px rgba(83,243,207,.25)">Start a project</a>
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div style="position:relative;padding:180px 24px 90px;overflow:hidden;min-height:100vh">
+  <div style="position:absolute;top:-25%;left:-10%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(44,197,178,.13),transparent 65%);pointer-events:none"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start">
+
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:20px">Contact</div>
+      <h1 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(44px,6vw,76px);line-height:1;letter-spacing:-.03em">Tell us what you're <span style="background:linear-gradient(92deg,var(--pd-accent),var(--pd-mint));-webkit-background-clip:text;background-clip:text;color:transparent">building</span></h1>
+      <p style="margin:22px 0 0;font-size:17px;line-height:1.65;color:rgba(242,244,243,.65);max-width:440px">Product, platform or placement goals — we reply within one business day with an honest read on scope, timeline and budget.</p>
+      <div style="display:grid;gap:14px;margin-top:40px;max-width:400px">
+        <div style="display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(255,255,255,.02)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.45);width:64px">Email</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--pd-mint)">info@patashala.dev</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(255,255,255,.02)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.45);width:64px">Base</span>
+          <span style="font-size:14.5px;color:rgba(242,244,243,.8)">Hyderabad, India</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid rgba(255,255,255,.09);border-radius:16px;background:rgba(255,255,255,.02)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.45);width:64px">Social</span>
+          <span style="display:flex;gap:14px;font-size:14px">
+            <a href="https://linkedin.com/company/patashaladotdev" style="color:rgba(242,244,243,.75);text-decoration:none" style-hover="color:#53F3CF">LinkedIn</a>
+            <a href="https://x.com/patashala_dev" style="color:rgba(242,244,243,.75);text-decoration:none" style-hover="color:#53F3CF">X</a>
+            <a href="https://instagram.com/patashala.dev" style="color:rgba(242,244,243,.75);text-decoration:none" style-hover="color:#53F3CF">Instagram</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:24px;background:rgba(255,255,255,.025);padding:40px">
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:64px 16px">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(83,243,207,.12);border:1.5px solid var(--pd-mint);display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:26px;color:var(--pd-mint)">✓</div>
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:26px;margin-top:24px">Message sent</div>
+          <p style="font-size:15px;color:rgba(242,244,243,.6);margin:10px 0 0;line-height:1.6">Thanks, {{ sentName }}. We'll reply within one business day.</p>
+          <button onClick="{{ reset }}" style="margin-top:28px;font-family:'Satoshi',sans-serif;font-weight:700;font-size:14px;color:#F2F4F3;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);padding:12px 22px;border-radius:12px;cursor:pointer">Send another</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;gap:18px">
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:22px">Start the conversation</div>
+          <div style="display:grid;gap:8px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.5)">I'm interested in</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ interests }}" as="i" hint-placeholder-count="5">
+                <button onClick="{{ i.pick }}" style="font-family:'Satoshi',sans-serif;font-size:13.5px;font-weight:{{ i.weight }};cursor:pointer;padding:9px 16px;border-radius:99px;border:{{ i.border }};background:{{ i.bg }};color:{{ i.color }}">{{ i.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="display:grid;gap:8px">
+              <label style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.5)">Name</label>
+              <input value="{{ name }}" onChange="{{ setName }}" placeholder="Your name" style="font-family:'Satoshi',sans-serif;font-size:15px;color:#F2F4F3;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;outline:none;width:100%" style-focus="border-color:#53F3CF;background:rgba(83,243,207,.04)">
+            </div>
+            <div style="display:grid;gap:8px">
+              <label style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.5)">Email</label>
+              <input value="{{ email }}" onChange="{{ setEmail }}" placeholder="you@email.com" style="font-family:'Satoshi',sans-serif;font-size:15px;color:#F2F4F3;background:rgba(255,255,255,.04);border:1px solid {{ emailBorder }};border-radius:12px;padding:14px 16px;outline:none;width:100%" style-focus="border-color:#53F3CF;background:rgba(83,243,207,.04)">
+            </div>
+          </div>
+          <div style="display:grid;gap:8px">
+            <label style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,244,243,.5)">Message</label>
+            <textarea value="{{ message }}" onChange="{{ setMessage }}" rows="5" placeholder="Tell us about your product, institute, or placement goals…" style="font-family:'Satoshi',sans-serif;font-size:15px;line-height:1.6;color:#F2F4F3;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;outline:none;resize:vertical;width:100%" style-focus="border-color:#53F3CF;background:rgba(83,243,207,.04)"></textarea>
+          </div>
+          <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:13.5px;color:#FF8896;background:rgba(255,110,127,.08);border:1px solid rgba(255,110,127,.3);border-radius:10px;padding:10px 14px">{{ error }}</div>
+          </sc-if>
+          <button onClick="{{ submit }}" style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:16px;color:#08090B;background:var(--pd-mint);border:none;border-radius:14px;padding:16px;cursor:pointer" style-hover="transform:translateY(-2px);box-shadow:0 0 44px rgba(83,243,207,.4)">Send message →</button>
+          <div style="font-size:12px;color:rgba(242,244,243,.4);text-align:center">Replies within one business day. No spam, ever.</div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div style="padding:0 24px 32px">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px 8px;border-top:1px solid rgba(255,255,255,.07);font-size:12.5px;color:rgba(242,244,243,.4)">
+    <span>© 2026 Patashala.Dev · <a href="Home.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Home</a> · <a href="Services.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Services</a> · <a href="Training.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Training</a></span>
+    <span style="font-family:'JetBrains Mono',monospace">info@patashala.dev · Hyderabad, India</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440}}">
+class Component extends DCLogic {
+  state = { name: '', email: '', message: '', interest: 'A project / platform', sent: false, error: '' };
+
+  renderVals() {
+    const opts = ['A project / platform', 'Ekkalavya (students)', 'Training programs', 'LMS / CRM', 'Something else'];
+    return {
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      sentName: this.state.name || 'friend',
+      name: this.state.name,
+      email: this.state.email,
+      message: this.state.message,
+      error: this.state.error,
+      emailBorder: this.state.error && !this.validEmail() ? 'rgba(255,110,127,.5)' : 'rgba(255,255,255,.12)',
+      setName: (e) => this.setState({ name: e.target.value }),
+      setEmail: (e) => this.setState({ email: e.target.value, error: '' }),
+      setMessage: (e) => this.setState({ message: e.target.value }),
+      reset: () => this.setState({ sent: false, name: '', email: '', message: '', error: '' }),
+      interests: opts.map((label) => {
+        const on = this.state.interest === label;
+        return {
+          label,
+          weight: on ? '700' : '400',
+          border: on ? '1px solid rgba(83,243,207,.7)' : '1px solid rgba(255,255,255,.14)',
+          bg: on ? 'rgba(83,243,207,.12)' : 'rgba(255,255,255,.03)',
+          color: on ? '#53F3CF' : 'rgba(242,244,243,.7)',
+          pick: () => this.setState({ interest: label }),
+        };
+      }),
+      submit: () => {
+        if (!this.state.name.trim()) { this.setState({ error: 'Please add your name.' }); return; }
+        if (!this.validEmail()) { this.setState({ error: 'That email doesn\u2019t look right \u2014 check it once?' }); return; }
+        if (!this.state.message.trim()) { this.setState({ error: 'A short message helps us reply usefully.' }); return; }
+        this.setState({ sent: true, error: '' });
+      },
+    };
+  }
+
+  validEmail() {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.state.email.trim());
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#08090B;color:#F2F4F3;font-family:'Satoshi',system-ui,sans-serif;-webkit-font-smoothing:antialiased;--pd-accent:#2CC5B2;--pd-mint:#53F3CF;--pd-violet:#A78BFA}
+*{box-sizing:border-box}
+a{color:inherit}
+@keyframes pdMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes pdFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pdPulse{0%,100%{opacity:.5}50%{opacity:1}}
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+[data-reveal].pd-in{opacity:1;transform:none}
+::selection{background:#2CC5B2;color:#08090B}
+</style>
+</helmet>
+
+<!-- ══ NAV ══ -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:16px 24px 0">
+  <div style="width:100%;max-width:1200px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 12px 12px 20px;background:rgba(10,11,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);border-radius:16px">
+    <a href="Home.dc.html" style="text-decoration:none;display:flex;align-items:baseline;gap:2px;font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.02em"><span style="color:#F2F4F3">patashala</span><span style="color:var(--pd-accent)">.dev</span></a>
+    <div style="display:flex;align-items:center;gap:4px">
+      <a href="Home.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:#F2F4F3;background:rgba(255,255,255,.06)">Home</a>
+      <a href="Services.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Services</a>
+      <a href="Training.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Training</a>
+      <a href="Blog.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Blog</a>
+      <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Contact</a>
+    </div>
+    <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:700;color:#08090B;background:var(--pd-mint);padding:10px 18px;border-radius:10px;box-shadow:0 0 24px rgba(83,243,207,.25)" style-hover="transform:translateY(-1px);box-shadow:0 0 36px rgba(83,243,207,.45)">Start a project</a>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<div style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:140px 24px 80px">
+  <sc-if value="{{ show3d }}" hint-placeholder-val="{{ true }}">
+    <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none"></canvas>
+  </sc-if>
+  <div style="position:absolute;top:-20%;right:-10%;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(44,197,178,.16),transparent 65%);pointer-events:none"></div>
+  <div style="position:absolute;bottom:-30%;left:-10%;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,.1),transparent 65%);pointer-events:none"></div>
+
+  <div style="position:relative;width:100%;max-width:1200px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px">
+      <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pd-mint);border:1px solid rgba(83,243,207,.3);padding:8px 14px;border-radius:99px;background:rgba(83,243,207,.06)"><span style="width:7px;height:7px;border-radius:50%;background:var(--pd-mint);animation:pdPulse 2s infinite"></span>Consulting · Development · Training</span>
+    </div>
+    <h1 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(64px,10.5vw,148px);line-height:.94;letter-spacing:-.03em">
+      <span style="display:block">Learn.</span>
+      <span style="display:block;color:transparent;-webkit-text-stroke:1.5px rgba(242,244,243,.85)">Build.</span>
+      <span style="display:block;background:linear-gradient(92deg,var(--pd-accent),var(--pd-mint) 60%,var(--pd-violet));-webkit-background-clip:text;background-clip:text;color:transparent">Deliver.</span>
+    </h1>
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-top:36px">
+      <p style="margin:0;max-width:520px;font-size:19px;line-height:1.6;color:rgba(242,244,243,.68)">Production-ready SaaS, LMS &amp; CRM platforms — and <a href="Services.dc.html#ekkalavya" style="color:var(--pd-mint);text-decoration:none;border-bottom:1px solid rgba(83,243,207,.4)">Ekkalavya</a>, our 24-feature platform that gets students placement-ready.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="Services.dc.html#ekkalavya" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:16px;color:#08090B;background:var(--pd-mint);padding:16px 28px;border-radius:14px;box-shadow:0 0 40px rgba(83,243,207,.3)" style-hover="transform:translateY(-2px);box-shadow:0 0 60px rgba(83,243,207,.5)">Explore Ekkalavya <span style="font-family:'JetBrains Mono',monospace">→</span></a>
+        <a href="Contact.dc.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:16px;color:#F2F4F3;border:1px solid rgba(255,255,255,.18);padding:16px 28px;border-radius:14px;background:rgba(255,255,255,.03)" style-hover="border-color:rgba(83,243,207,.5);background:rgba(83,243,207,.06)">Book a consultation</a>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;margin-top:72px">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+        <div style="background:#0B0D10;padding:24px 26px">
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:38px;color:var(--pd-mint)">{{ st.value }}</div>
+          <div style="font-size:13px;color:rgba(242,244,243,.55);margin-top:4px">{{ st.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MARQUEE ══ -->
+<div style="border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:18px 0;overflow:hidden;background:#0A0C0E">
+  <div style="display:flex;width:max-content;animation:pdMarquee 28s linear infinite">
+    <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="16">
+      <span style="display:inline-flex;align-items:center;gap:28px;padding-right:28px;font-family:'Clash Display',sans-serif;font-weight:500;font-size:22px;color:rgba(242,244,243,.7);white-space:nowrap">{{ m }} <span style="color:var(--pd-accent)">✦</span></span>
+    </sc-for>
+  </div>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<div style="padding:120px 24px 40px" id="services">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:56px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:16px">01 — What we do</div>
+        <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(36px,5vw,58px);letter-spacing:-.02em;line-height:1.05;max-width:640px">Production software for real business workflows</h2>
+      </div>
+      <a href="Services.dc.html" style="text-decoration:none;font-weight:500;font-size:15px;color:var(--pd-mint);display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border:1px solid rgba(83,243,207,.3);border-radius:12px" style-hover="background:rgba(83,243,207,.08)">All services →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ services }}" as="sv" hint-placeholder-count="6">
+        <a href="Services.dc.html" data-reveal style="text-decoration:none;display:flex;flex-direction:column;gap:14px;padding:28px;border-radius:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);min-height:220px" style-hover="border-color:rgba(83,243,207,.45);background:rgba(83,243,207,.04);transform:translateY(-4px)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(242,244,243,.4)">{{ sv.num }}</div>
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:22px;letter-spacing:-.01em;color:#F2F4F3">{{ sv.title }}</div>
+          <div style="font-size:14.5px;line-height:1.6;color:rgba(242,244,243,.58);flex:1">{{ sv.desc }}</div>
+          <div style="font-size:13px;font-weight:700;color:var(--pd-mint)">Learn more →</div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EKKALAVYA SPOTLIGHT ══ -->
+<div style="padding:80px 24px">
+  <div data-reveal style="max-width:1200px;margin:0 auto;position:relative;overflow:hidden;border-radius:28px;border:1px solid rgba(83,243,207,.25);background:linear-gradient(135deg,#0C1512 0%,#0A0E14 55%,#120F1C 100%);padding:64px 56px">
+    <div style="position:absolute;top:-40%;right:-5%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(83,243,207,.14),transparent 65%);pointer-events:none"></div>
+    <div style="position:absolute;right:56px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:repeat(4,52px);gap:10px;opacity:.9;pointer-events:none">
+      <sc-for list="{{ ekkGrid }}" as="cell" hint-placeholder-count="24">
+        <div style="width:52px;height:52px;border-radius:12px;border:1px solid rgba(83,243,207,.25);background:rgba(83,243,207,.05);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(83,243,207,.75);animation:pdFloat 5s ease-in-out infinite;animation-delay:{{ cell.delay }}">{{ cell.n }}</div>
+      </sc-for>
+    </div>
+    <div style="position:relative;max-width:560px">
+      <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#08090B;background:var(--pd-mint);padding:6px 12px;border-radius:99px;font-weight:700">New · Flagship platform</span>
+      <h2 style="margin:20px 0 0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(40px,5.5vw,64px);letter-spacing:-.02em;line-height:1">Ekkalavya</h2>
+      <p style="margin:18px 0 0;font-size:18px;line-height:1.65;color:rgba(242,244,243,.7)">24 features. One goal: <span style="color:var(--pd-mint);font-weight:700">placed.</span> Resume to offer letter — practice, mock interviews, projects and mentors in one platform. Free to start, ₹399 to go serious.</p>
+      <a href="Services.dc.html#ekkalavya" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;margin-top:32px;font-weight:700;font-size:16px;color:#08090B;background:var(--pd-mint);padding:15px 26px;border-radius:14px" style-hover="transform:translateY(-2px);box-shadow:0 0 44px rgba(83,243,207,.4)">See all 24 features →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROCESS ══ -->
+<div style="padding:100px 24px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="margin-bottom:56px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:16px">02 — How we work</div>
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(36px,5vw,58px);letter-spacing:-.02em;line-height:1.05;max-width:720px">Weekly proof, <span style="color:transparent;-webkit-text-stroke:1px rgba(242,244,243,.8)">not promises</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px">
+      <sc-for list="{{ process }}" as="p" hint-placeholder-count="5">
+        <div data-reveal style="padding:24px 20px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:12px" style-hover="border-color:rgba(167,139,250,.5);background:rgba(167,139,250,.05)">
+          <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:32px;color:transparent;-webkit-text-stroke:1px var(--pd-violet)">{{ p.num }}</div>
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:19px">{{ p.title }}</div>
+          <div style="font-size:13.5px;line-height:1.55;color:rgba(242,244,243,.55)">{{ p.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TRAINING STRIP ══ -->
+<div style="padding:40px 24px 100px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;border:1px solid rgba(255,255,255,.08);border-radius:28px;background:#0B0D10;padding:56px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:16px">03 — Patashala Academy</div>
+        <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(32px,4vw,46px);letter-spacing:-.02em;line-height:1.1">Training run by engineers who ship for clients</h2>
+        <p style="margin:18px 0 0;font-size:16px;line-height:1.65;color:rgba(242,244,243,.6)">You learn the way our consulting team works — Git, code review, deployments, and products you can defend in interviews.</p>
+        <a href="Training.dc.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-weight:700;font-size:15px;color:var(--pd-mint);border:1px solid rgba(83,243,207,.35);padding:13px 22px;border-radius:12px" style-hover="background:rgba(83,243,207,.08)">Explore training →</a>
+      </div>
+      <div style="display:grid;gap:10px">
+        <sc-for list="{{ academy }}" as="a" hint-placeholder-count="4">
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--pd-mint);margin-top:3px">{{ a.num }}</span>
+            <div>
+              <div style="font-weight:700;font-size:15px">{{ a.title }}</div>
+              <div style="font-size:13.5px;color:rgba(242,244,243,.55);margin-top:3px;line-height:1.5">{{ a.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ WORK ══ -->
+<div style="padding:0 24px 100px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="margin-bottom:48px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:16px">04 — Selected work</div>
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(36px,5vw,58px);letter-spacing:-.02em">Engagement snapshots</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ work }}" as="w" hint-placeholder-count="3">
+        <div data-reveal style="border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);overflow:hidden" style-hover="border-color:rgba(83,243,207,.4);transform:translateY(-4px)">
+          <div style="height:150px;background:{{ w.grad }};position:relative">
+            <span style="position:absolute;top:14px;left:14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#08090B;background:rgba(242,244,243,.92);padding:5px 10px;border-radius:99px;font-weight:700">{{ w.tag }}</span>
+          </div>
+          <div style="padding:24px">
+            <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:19px;line-height:1.25">{{ w.title }}</div>
+            <div style="font-size:14px;line-height:1.6;color:rgba(242,244,243,.55);margin-top:10px">{{ w.desc }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FAQ ══ -->
+<div style="padding:0 24px 120px">
+  <div style="max-width:840px;margin:0 auto">
+    <div data-reveal style="margin-bottom:40px;text-align:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:16px">05 — FAQ</div>
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(32px,4.5vw,48px);letter-spacing:-.02em">Answers before you ask</h2>
+    </div>
+    <div style="display:grid;gap:10px">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="4">
+        <div data-reveal style="border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.02);overflow:hidden">
+          <button onClick="{{ f.toggle }}" style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;background:none;border:none;color:#F2F4F3;font-family:'Satoshi',sans-serif;font-size:16px;font-weight:700;cursor:pointer;text-align:left" style-hover="color:#53F3CF">{{ f.q }}<span style="font-family:'JetBrains Mono',monospace;color:var(--pd-mint);font-size:18px">{{ f.icon }}</span></button>
+          <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 24px 22px;font-size:15px;line-height:1.65;color:rgba(242,244,243,.6)">{{ f.a }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CTA + FOOTER ══ -->
+<div style="padding:0 24px 32px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="text-align:center;padding:96px 32px;border-radius:28px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(ellipse at 50% -20%,rgba(44,197,178,.22),transparent 60%),#0B0D10;position:relative;overflow:hidden">
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(40px,6vw,72px);letter-spacing:-.03em;line-height:1.02">Let's build something<br>your users will <span style="background:linear-gradient(92deg,var(--pd-accent),var(--pd-mint));-webkit-background-clip:text;background-clip:text;color:transparent">rely on</span></h2>
+      <p style="margin:20px auto 0;max-width:480px;font-size:16px;line-height:1.6;color:rgba(242,244,243,.6)">Tell us about your product, platform, or placement goals. Honest read on scope, timeline and budget within one business day.</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
+        <a href="Contact.dc.html" style="text-decoration:none;font-weight:700;font-size:16px;color:#08090B;background:var(--pd-mint);padding:16px 30px;border-radius:14px" style-hover="transform:translateY(-2px);box-shadow:0 0 50px rgba(83,243,207,.45)">Book a consultation</a>
+        <a href="Services.dc.html" style="text-decoration:none;font-weight:500;font-size:16px;color:#F2F4F3;border:1px solid rgba(255,255,255,.18);padding:16px 30px;border-radius:14px" style-hover="border-color:rgba(83,243,207,.5)">Explore services</a>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px;padding:56px 8px 24px">
+      <div style="max-width:320px">
+        <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:22px"><span>patashala</span><span style="color:var(--pd-accent)">.dev</span></div>
+        <p style="font-size:13.5px;line-height:1.6;color:rgba(242,244,243,.5);margin:12px 0 0">Learn. Build. Deliver. — SaaS, LMS, CRM platforms, placement-ready training, and AgriTech innovation from Hyderabad, India.</p>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--pd-mint);margin-top:16px">info@patashala.dev</div>
+      </div>
+      <div style="display:flex;gap:64px;flex-wrap:wrap">
+        <div style="display:grid;gap:10px;align-content:start">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,244,243,.4);margin-bottom:4px">Pages</div>
+          <a href="Home.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Home</a>
+          <a href="Services.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Services</a>
+          <a href="Training.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Training</a>
+          <a href="Blog.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Blog</a>
+          <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Contact</a>
+        </div>
+        <div style="display:grid;gap:10px;align-content:start">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,244,243,.4);margin-bottom:4px">Platforms</div>
+          <a href="Services.dc.html#ekkalavya" style="text-decoration:none;font-size:14px;color:var(--pd-mint);font-weight:700" style-hover="color:#F2F4F3">Ekkalavya ✦</a>
+          <a href="Services.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Advanced LMS</a>
+          <a href="Services.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">CRM for EdTech</a>
+          <a href="Services.dc.html" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Agri Rover</a>
+        </div>
+        <div style="display:grid;gap:10px;align-content:start">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,244,243,.4);margin-bottom:4px">Social</div>
+          <a href="https://linkedin.com/company/patashaladotdev" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">LinkedIn</a>
+          <a href="https://x.com/patashala_dev" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">X / Twitter</a>
+          <a href="https://instagram.com/patashala.dev" style="text-decoration:none;font-size:14px;color:rgba(242,244,243,.65)" style-hover="color:#53F3CF">Instagram</a>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:20px 8px;border-top:1px solid rgba(255,255,255,.07);font-size:12.5px;color:rgba(242,244,243,.4)">
+      <span>© 2026 Patashala.Dev. All rights reserved.</span>
+      <span style="font-family:'JetBrains Mono',monospace">Hyderabad, India · Consulting · Development · Training · Innovation</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440}, &quot;accent&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#53F3CF&quot;, &quot;options&quot;: [&quot;#53F3CF&quot;, &quot;#C6FF3E&quot;, &quot;#A78BFA&quot;, &quot;#5EB0FF&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Theme&quot;}, &quot;show3d&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Motion&quot;}, &quot;motion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = { openFaq: 0 };
+
+  componentDidMount() {
+    this._alive = true;
+    this.initReveals();
+    if ((this.props.show3d ?? true)) this.waitForThree(0);
+    this.applyAccent();
+  }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() {
+    this._alive = false;
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._io) this._io.disconnect();
+    window.removeEventListener('mousemove', this._onMouse);
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  applyAccent() {
+    const acc = this.props.accent ?? '#53F3CF';
+    document.body.style.setProperty('--pd-mint', acc);
+  }
+
+  initReveals() {
+    const els = document.querySelectorAll('[data-reveal]');
+    if (!(this.props.motion ?? true)) { els.forEach(el => el.classList.add('pd-in')); return; }
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('pd-in'); this._io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(el => this._io.observe(el));
+    setTimeout(() => { document.querySelectorAll('[data-reveal]:not(.pd-in)').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight) el.classList.add('pd-in');
+    }); }, 1800);
+  }
+
+  waitForThree(tries) {
+    if (!this._alive) return;
+    if (window.THREE && this._canvas) { this.initThree(); return; }
+    if (tries > 25) return; // give up silently; glows remain
+    setTimeout(() => this.waitForThree(tries + 1), 200);
+  }
+
+  initThree() {
+    const THREE = window.THREE;
+    const canvas = this._canvas;
+    const parent = canvas.parentElement;
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+    camera.position.z = 10;
+
+    const accent = new THREE.Color(this.props.accent ?? '#53F3CF');
+    const teal = new THREE.Color('#2CC5B2');
+    const violet = new THREE.Color('#A78BFA');
+
+    // Big wireframe icosahedron — hero object, right side
+    const ico = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(3.1, 1),
+      new THREE.MeshBasicMaterial({ color: teal, wireframe: true, transparent: true, opacity: 0.34 })
+    );
+    ico.position.set(4.6, 0.4, -2);
+    scene.add(ico);
+
+    // Inner solid-ish icosahedron
+    const icoInner = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(1.5, 0),
+      new THREE.MeshBasicMaterial({ color: accent, wireframe: true, transparent: true, opacity: 0.5 })
+    );
+    icoInner.position.copy(ico.position);
+    scene.add(icoInner);
+
+    // Torus knot — small, floating left-bottom
+    const knot = new THREE.Mesh(
+      new THREE.TorusKnotGeometry(0.9, 0.26, 110, 16),
+      new THREE.MeshBasicMaterial({ color: violet, wireframe: true, transparent: true, opacity: 0.22 })
+    );
+    knot.position.set(-5.2, -2.6, -3);
+    scene.add(knot);
+
+    // Octahedron top-left
+    const octa = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.8, 0),
+      new THREE.MeshBasicMaterial({ color: accent, wireframe: true, transparent: true, opacity: 0.4 })
+    );
+    octa.position.set(-3.4, 2.9, -4);
+    scene.add(octa);
+
+    // Particle field
+    const N = 420;
+    const pos = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      pos[i * 3] = (Math.random() - 0.5) * 26;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 16;
+      pos[i * 3 + 2] = -2 - Math.random() * 10;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: teal, size: 0.035, transparent: true, opacity: 0.65 }));
+    scene.add(points);
+
+    const mouse = { x: 0, y: 0 };
+    this._onMouse = (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener('mousemove', this._onMouse);
+
+    const resize = () => {
+      const w = parent.clientWidth, h = parent.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    };
+    this._onResize = resize;
+    window.addEventListener('resize', resize);
+    resize();
+
+    const clock = new THREE.Clock();
+    const tick = () => {
+      if (!this._alive) return;
+      const t = clock.getElapsedTime();
+      ico.rotation.y = t * 0.16 + mouse.x * 0.45;
+      ico.rotation.x = t * 0.08 + mouse.y * 0.3;
+      icoInner.rotation.y = -t * 0.3 - mouse.x * 0.6;
+      icoInner.rotation.z = t * 0.14;
+      knot.rotation.y = t * 0.22 + mouse.x * 0.25;
+      knot.rotation.x = mouse.y * 0.25;
+      knot.position.y = -2.6 + Math.sin(t * 0.7) * 0.25;
+      octa.rotation.y = t * 0.4;
+      octa.position.y = 2.9 + Math.sin(t * 0.9 + 1) * 0.2;
+      points.rotation.y = t * 0.012 + mouse.x * 0.03;
+      camera.position.x += (mouse.x * 0.5 - camera.position.x) * 0.04;
+      camera.position.y += (-mouse.y * 0.35 - camera.position.y) * 0.04;
+      camera.lookAt(0, 0, -2);
+      renderer.render(scene, camera);
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  renderVals() {
+    const open = this.state.openFaq;
+    const faqData = [
+      { q: 'What does Patashala.Dev actually do?', a: 'Three things, deliberately connected: we build production software (SaaS, LMS, CRM, full-stack platforms) for clients; we run practical, project-based training; and we invest in innovation projects like Agri Rover and Ekkalavya.' },
+      { q: 'What is Ekkalavya?', a: 'Our placement-readiness platform for students: 24 features covering resume, practice, mock interviews and job hunt. Free to start; Starter at \u20B9399/mo gives every feature 15 uses; Premium at \u20B9899/mo is unlimited.' },
+      { q: 'What makes your training different?', a: 'Every track is project-driven and taught by working engineers. You learn inside the same workflows our consulting team uses on client projects \u2014 Git, code review, tickets, deployment.' },
+      { q: 'How do engagements usually start?', a: 'A short consultation call. We map your workflow, users and success metrics, then respond with an honest read on scope, timeline and budget within one business day.' },
+    ];
+    return {
+      show3d: this.props.show3d ?? true,
+      canvasRef: (el) => { this._canvas = el; },
+      stats: [
+        { value: '12+', label: 'Programs & training tracks' },
+        { value: '40+', label: 'Platform builds & engagements' },
+        { value: '24', label: 'Ekkalavya placement features' },
+        { value: '100%', label: 'Project-based learning' },
+      ],
+      marquee: Array.from({ length: 4 }).flatMap(() => ['SaaS', 'LMS', 'CRM', 'Training', 'Ekkalavya', 'Agri Rover', 'Analytics', 'Cloud']),
+      services: [
+        { num: '/01', title: 'SaaS Development', desc: 'Multi-tenant platforms with subscriptions, role-based access, billing and dashboards that scale from first customer to thousands.' },
+        { num: '/02', title: 'Full-Stack Web Apps', desc: 'Modern frontends, robust APIs and reliable databases — designed, built, tested and shipped by one accountable team.' },
+        { num: '/03', title: 'Custom LMS', desc: 'Learning systems built around how your institute actually teaches — courses, live classes, assessments, certificates, payments.' },
+        { num: '/04', title: 'Custom CRM', desc: 'Enquiry capture, admissions pipelines, counsellor workflows, follow-ups and revenue visibility for education businesses.' },
+        { num: '/05', title: 'EdTech Products', desc: 'From online academies and assessment engines to full learning ecosystems with mobile-first experiences.' },
+        { num: '/06', title: 'UI/UX + Frontend', desc: 'Interfaces that look premium and ship as production code — design systems, prototypes, pixel-perfect React.' },
+      ],
+      ekkGrid: Array.from({ length: 12 }).map((_, i) => ({ n: String(i * 2 + 1).padStart(2, '0'), delay: (i % 5) * 0.55 + 's' })),
+      process: [
+        { num: '01', title: 'Discover', desc: 'Workflow, users and success metrics mapped before any code. Clear scope, honest estimates.' },
+        { num: '02', title: 'Design', desc: 'Wireframes, UI and a clickable prototype — approve the experience before development.' },
+        { num: '03', title: 'Build', desc: 'Weekly demo-driven sprints with a typed, tested codebase in a staging environment.' },
+        { num: '04', title: 'Launch', desc: 'Production deploy with monitoring, backups and performance checks. With you, not at you.' },
+        { num: '05', title: 'Scale', desc: 'Post-launch iteration, roadmaps and maintenance — a long-term engineering partner.' },
+      ],
+      academy: [
+        { num: '01', title: 'Learning by building', desc: 'Code from the first session; finish with work you can show in interviews.' },
+        { num: '02', title: 'Industry workflows day one', desc: 'Git, code review, tickets, deployment — real consulting workflows.' },
+        { num: '03', title: 'Taught by working engineers', desc: 'Mentors ship production SaaS, LMS and CRM during the day.' },
+        { num: '04', title: 'Job-readiness built in', desc: 'Interview prep, portfolio reviews and communication practice included.' },
+      ],
+      work: [
+        { tag: 'LMS Platform', title: 'Advanced LMS for a multi-branch institute', desc: 'From spreadsheets, WhatsApp groups and a generic video tool to one view of progress, attendance and fees.', grad: 'linear-gradient(135deg,#0E2E29,#123A34 60%,#0A0E14)' },
+        { tag: 'EdTech CRM', title: 'Admissions CRM for an education business', desc: 'Enquiries from ads, walk-ins and referrals unified — no missed follow-ups, reliable conversion numbers.', grad: 'linear-gradient(135deg,#1B1533,#241B45 60%,#0A0E14)' },
+        { tag: 'SaaS', title: 'Multi-tenant SaaS from MVP to paying users', desc: 'A founding team validated a B2B idea fast — without throwaway code they\u2019d regret six months later.', grad: 'linear-gradient(135deg,#0C2233,#10304A 60%,#0A0E14)' },
+      ],
+      faqs: faqData.map((f, i) => ({
+        q: f.q, a: f.a,
+        open: open === i,
+        icon: open === i ? '−' : '+',
+        toggle: () => this.setState({ openFaq: open === i ? -1 : i }),
+      })),
+    };
+  }
+}
+</script>
+</body>
+</html>

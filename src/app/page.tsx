@@ -7,14 +7,15 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Container, Section, SectionHeader } from "@/components/ui/section";
 import { Reveal, RevealItem } from "@/components/motion/reveal";
 import { Counter } from "@/components/motion/counter";
-import { EcosystemVisual } from "@/components/three/ecosystem-visual";
+import { HeroVisual } from "@/components/three/hero-visual";
+import { SolutionsScroll } from "@/components/home/solutions-scroll";
+import { ProcessTimeline } from "@/components/home/process-timeline";
+import { TrainingCta } from "@/components/home/training-cta";
 import { CtaSection } from "@/components/blocks/cta-section";
 import { Faq } from "@/components/blocks/faq";
 import { services } from "@/config/services";
-import { solutions } from "@/config/solutions";
-import { trainingPrinciples } from "@/config/training";
 import { caseStudies } from "@/config/case-studies";
-import { processSteps, whyUs, stats, trustPoints, faqs } from "@/config/content";
+import { whyUs, stats, trustPoints, faqs } from "@/config/content";
 import { pageMetadata, faqJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -34,11 +35,23 @@ export default function HomePage() {
 
       {/* ── Hero ───────────────────────────────────────────────────── */}
       <div className="glow-orbs relative overflow-hidden pt-28 sm:pt-36">
+        {/* Layer 0 — Three.js icosahedron canvas (absolute background) */}
+        <HeroVisual />
+
+        {/* Layer 1 — dot grid sits above canvas, below text */}
         <div
-          className="bg-grid absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_75%_60%_at_50%_0%,black,transparent)]"
+          className="bg-grid absolute inset-0 z-[1] opacity-20 [mask-image:radial-gradient(ellipse_75%_60%_at_50%_0%,black,transparent)]"
           aria-hidden
         />
-        <Container className="relative">
+
+        {/* Layer 2 — left-to-right gradient so text stays legible over the model */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-r from-background/80 via-background/50 to-background/10"
+          aria-hidden
+        />
+
+        {/* Layer 10 — content */}
+        <Container className="relative z-[10]">
           <div className="grid items-center gap-12 pb-16 lg:grid-cols-2 lg:gap-8 lg:pb-24">
             <Reveal staggerChildren>
               <RevealItem>
@@ -84,13 +97,8 @@ export default function HomePage() {
               </RevealItem>
             </Reveal>
 
-            {/* 3D ecosystem — dynamically imported, light fallback on mobile */}
-            <Reveal delay={0.15} className="relative">
-              <EcosystemVisual className="h-[380px] w-full sm:h-[460px] lg:h-[540px]" />
-              <p className="mt-2 text-center text-xs text-muted-foreground">
-                One connected ecosystem: SaaS · LMS · CRM · Training · Agri Rover · Analytics · Cloud
-              </p>
-            </Reveal>
+            {/* Right column — intentionally empty; the canvas model floats here */}
+            <div aria-hidden />
           </div>
         </Container>
       </div>
@@ -147,104 +155,14 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* ── Featured solutions ─────────────────────────────────────── */}
-      <Section tone="surface" className="border-y border-border">
-        <Container>
-          <SectionHeader
-            eyebrow="Featured solutions"
-            title="Platforms we've productized"
-            description="Our deepest experience, packaged: advanced LMS, education CRM, SaaS foundations, and the Agri Rover innovation track."
-          />
-          <Reveal staggerChildren className="grid gap-6 md:grid-cols-2">
-            {solutions.slice(0, 4).map((solution) => (
-              <RevealItem key={solution.id}>
-                <Link href={solution.href} className="block h-full rounded-2xl">
-                  <Card variant="interactive" padding="lg" className="h-full">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15">
-                        <solution.icon className="size-6 text-primary" aria-hidden />
-                      </div>
-                      <Badge variant="outline" className="text-right">
-                        {solution.tagline}
-                      </Badge>
-                    </div>
-                    <CardTitle className="mt-5 text-xl">{solution.title}</CardTitle>
-                    <CardDescription className="mt-2">{solution.summary}</CardDescription>
-                    <ul className="mt-5 grid grid-cols-2 gap-2">
-                      {solution.highlights.map((h) => (
-                        <li key={h} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                          <Check className="size-3.5 shrink-0 text-success" aria-hidden />
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
-                  </Card>
-                </Link>
-              </RevealItem>
-            ))}
-          </Reveal>
-        </Container>
-      </Section>
+      {/* ── Solutions — pinned horizontal scroll ───────────────────── */}
+      <SolutionsScroll />
 
-      {/* ── Training ───────────────────────────────────────────────── */}
-      <Section>
-        <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <Reveal>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-primary">
-                Patashala Academy
-              </p>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Training run by engineers who ship for clients
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-                Our training programs focus on practical engineering skills, real projects, and
-                industry-ready workflows. You learn the way our consulting team works — Git, code
-                review, deployments, and products you can defend in interviews.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <Button asChild>
-                  <Link href="/training">
-                    Explore Training <ArrowRight aria-hidden />
-                  </Link>
-                </Button>
-              </div>
-            </Reveal>
-            <Reveal staggerChildren className="grid gap-4 sm:grid-cols-2">
-              {trainingPrinciples.map((p) => (
-                <RevealItem key={p.title}>
-                  <Card variant="glass" className="h-full">
-                    <CardTitle className="text-base">{p.title}</CardTitle>
-                    <CardDescription className="mt-2">{p.description}</CardDescription>
-                  </Card>
-                </RevealItem>
-              ))}
-            </Reveal>
-          </div>
-        </Container>
-      </Section>
+      {/* ── Training CTA — magnetic button ─────────────────────────── */}
+      <TrainingCta />
 
-      {/* ── Process ────────────────────────────────────────────────── */}
-      <Section tone="surface" className="border-y border-border">
-        <Container>
-          <SectionHeader
-            eyebrow="How we work"
-            title="A process built on weekly proof, not promises"
-            description="From idea to launch, Patashala.Dev helps teams design, build, and scale reliable digital products — with demos every week and no surprises at handover."
-          />
-          <Reveal staggerChildren className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {processSteps.map((step) => (
-              <RevealItem key={step.step}>
-                <Card className="h-full">
-                  <p className="font-mono text-sm font-bold text-primary">{step.step}</p>
-                  <CardTitle className="mt-3 text-lg">{step.title}</CardTitle>
-                  <CardDescription className="mt-2">{step.description}</CardDescription>
-                </Card>
-              </RevealItem>
-            ))}
-          </Reveal>
-        </Container>
-      </Section>
+      {/* ── Process — scroll-drawn timeline ────────────────────────── */}
+      <ProcessTimeline />
 
       {/* ── Why Patashala.Dev ──────────────────────────────────────── */}
       <Section>

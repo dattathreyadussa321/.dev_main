@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   // Small runtime image for Docker deployments; also used by server.js for cPanel
   output: "standalone",
-  // Mongoose is a server-only CommonJS package; keep it external to the bundle
-  serverExternalPackages: ["mongoose"],
+  // Mongoose and nodemailer are server-only packages with native Node.js deps; keep them external
+  serverExternalPackages: ["mongoose", "nodemailer"],
   // Hide the framework fingerprint from response headers
   poweredByHeader: false,
   // Strip console.* in production builds, keep errors/warnings

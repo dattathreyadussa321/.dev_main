@@ -115,10 +115,15 @@ export async function POST(req: Request) {
     await sendOtpEmail(otp);
   } catch (err) {
     console.error("[admin/login] failed to send OTP email:", err);
-    return NextResponse.json(
-      { error: "Failed to send OTP email. Check SMTP configuration." },
-      { status: 500 },
-    );
+    if (process.env.NODE_ENV !== "development") {
+      return NextResponse.json(
+        { error: "Failed to send OTP email. Check SMTP configuration." },
+        { status: 500 },
+      );
+    }
+    // In development, email delivery is often unavailable (blocked ports / Resend
+    // test-mode restrictions). Print the OTP to the server terminal so login still works.
+    console.warn(`\n[dev] OTP email failed — use this code to log in: ${otp}\n`);
   }
 
   return NextResponse.json({ step: "otp", pendingToken });

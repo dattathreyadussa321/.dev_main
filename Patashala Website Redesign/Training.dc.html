@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#08090B;color:#F2F4F3;font-family:'Satoshi',system-ui,sans-serif;-webkit-font-smoothing:antialiased;--pd-accent:#2CC5B2;--pd-mint:#53F3CF;--pd-violet:#A78BFA}
+*{box-sizing:border-box}
+a{color:inherit}
+@keyframes pdPulse{0%,100%{opacity:.5}50%{opacity:1}}
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+[data-reveal].pd-in{opacity:1;transform:none}
+::selection{background:#2CC5B2;color:#08090B}
+</style>
+</helmet>
+
+<!-- ══ NAV ══ -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:16px 24px 0">
+  <div style="width:100%;max-width:1200px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 12px 12px 20px;background:rgba(10,11,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);border-radius:16px">
+    <a href="Home.dc.html" style="text-decoration:none;display:flex;align-items:baseline;gap:2px;font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.02em"><span style="color:#F2F4F3">patashala</span><span style="color:var(--pd-accent)">.dev</span></a>
+    <div style="display:flex;align-items:center;gap:4px">
+      <a href="Home.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Home</a>
+      <a href="Services.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Services</a>
+      <a href="Training.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:#F2F4F3;background:rgba(255,255,255,.06)">Training</a>
+      <a href="Blog.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Blog</a>
+      <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Contact</a>
+    </div>
+    <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:700;color:#08090B;background:var(--pd-mint);padding:10px 18px;border-radius:10px;box-shadow:0 0 24px rgba(83,243,207,.25)" style-hover="transform:translateY(-1px);box-shadow:0 0 36px rgba(83,243,207,.45)">Start a project</a>
+  </div>
+</div>
+
+<!-- ══ HEADER ══ -->
+<div style="position:relative;padding:180px 24px 72px;overflow:hidden">
+  <div style="position:absolute;top:-30%;right:10%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,.12),transparent 65%);pointer-events:none"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:20px">Patashala Academy</div>
+    <h1 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(48px,7.5vw,96px);line-height:.98;letter-spacing:-.03em;max-width:980px">Learn the way <span style="background:linear-gradient(92deg,var(--pd-accent),var(--pd-mint));-webkit-background-clip:text;background-clip:text;color:transparent">shipping teams</span> work</h1>
+    <p style="margin:24px 0 0;max-width:560px;font-size:18px;line-height:1.6;color:rgba(242,244,243,.65)">Project-driven tracks taught by engineers who build production SaaS, LMS and CRM platforms during the day. Code from session one; finish with work you can defend in interviews.</p>
+    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+      <a href="Contact.dc.html" style="text-decoration:none;font-weight:700;font-size:15px;color:#08090B;background:var(--pd-mint);padding:15px 26px;border-radius:14px" style-hover="transform:translateY(-2px);box-shadow:0 0 44px rgba(83,243,207,.4)">Apply for a track →</a>
+      <a href="Services.dc.html#ekkalavya" style="text-decoration:none;font-weight:500;font-size:15px;color:#F2F4F3;border:1px solid rgba(255,255,255,.18);padding:15px 26px;border-radius:14px" style-hover="border-color:rgba(83,243,207,.5)">Self-paced? Try Ekkalavya</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PILLARS ══ -->
+<div style="padding:40px 24px 90px">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+    <sc-for list="{{ pillars }}" as="pl" hint-placeholder-count="4">
+      <div data-reveal style="padding:26px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);display:flex;flex-direction:column;gap:12px" style-hover="border-color:rgba(83,243,207,.4);transform:translateY(-3px)">
+        <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:30px;color:transparent;-webkit-text-stroke:1px rgba(83,243,207,.65)">{{ pl.num }}</div>
+        <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:19px">{{ pl.title }}</div>
+        <div style="font-size:14px;line-height:1.6;color:rgba(242,244,243,.55)">{{ pl.desc }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+<!-- ══ TRACKS ══ -->
+<div style="padding:0 24px 100px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="margin-bottom:44px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:14px">Training tracks</div>
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(32px,4.5vw,52px);letter-spacing:-.02em">Pick your track</h2>
+    </div>
+    <div style="display:grid;gap:12px">
+      <sc-for list="{{ tracks }}" as="t" hint-placeholder-count="4">
+        <div data-reveal style="display:grid;grid-template-columns:56px 1.1fr 1.6fr auto;gap:24px;align-items:center;padding:26px 28px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02)" style-hover="border-color:rgba(83,243,207,.45);background:rgba(83,243,207,.03)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(242,244,243,.4)">{{ t.num }}</div>
+          <div>
+            <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:21px">{{ t.title }}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--pd-mint);margin-top:6px">{{ t.meta }}</div>
+          </div>
+          <div style="font-size:14.5px;line-height:1.6;color:rgba(242,244,243,.58)">{{ t.desc }}</div>
+          <a href="Contact.dc.html" style="text-decoration:none;font-weight:700;font-size:14px;color:var(--pd-mint);border:1px solid rgba(83,243,207,.35);padding:11px 20px;border-radius:11px;white-space:nowrap" style-hover="background:rgba(83,243,207,.1)">Apply →</a>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EKKALAVYA CROSS-SELL ══ -->
+<div style="padding:0 24px 100px">
+  <div data-reveal style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;border:1px solid rgba(83,243,207,.25);border-radius:24px;background:linear-gradient(120deg,#0C1512,#0A0E14);padding:40px 44px">
+    <div style="max-width:620px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--pd-mint);margin-bottom:10px">Prefer self-paced?</div>
+      <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(24px,3vw,34px);letter-spacing:-.01em">Ekkalavya: 24 placement features, from ₹0</div>
+      <p style="margin:10px 0 0;font-size:15px;line-height:1.6;color:rgba(242,244,243,.6)">Resume, DSA practice, AI mock interviews, mentors and job tracking — free to start, ₹399/mo Starter, ₹899/mo unlimited.</p>
+    </div>
+    <a href="Services.dc.html#ekkalavya" style="text-decoration:none;font-weight:700;font-size:15px;color:#08090B;background:var(--pd-mint);padding:15px 26px;border-radius:14px;white-space:nowrap" style-hover="transform:translateY(-2px);box-shadow:0 0 44px rgba(83,243,207,.4)">Explore Ekkalavya →</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div style="padding:0 24px 32px">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px 8px;border-top:1px solid rgba(255,255,255,.07);font-size:12.5px;color:rgba(242,244,243,.4)">
+    <span>© 2026 Patashala.Dev · <a href="Home.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Home</a> · <a href="Services.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Services</a> · <a href="Contact.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Contact</a></span>
+    <span style="font-family:'JetBrains Mono',monospace">info@patashala.dev · Hyderabad, India</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    const els = document.querySelectorAll('[data-reveal]');
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('pd-in'); this._io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    els.forEach(el => this._io.observe(el));
+    setTimeout(() => { document.querySelectorAll('[data-reveal]:not(.pd-in)').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight) el.classList.add('pd-in');
+    }); }, 1800);
+  }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); }
+
+  renderVals() {
+    return {
+      pillars: [
+        { num: '01', title: 'Learning by building', desc: 'Every track is project-driven. You write code from the first session and finish with work you can show.' },
+        { num: '02', title: 'Industry workflows', desc: 'Git, code review, tickets, deployment — the same workflows our consulting team uses on client projects.' },
+        { num: '03', title: 'Working engineers', desc: 'Your mentors ship production SaaS, LMS and CRM platforms during the day. Answers from shipped systems, not slides.' },
+        { num: '04', title: 'Job-readiness built in', desc: 'Interview prep, portfolio reviews and communication practice are part of the program — not an afterthought.' },
+      ],
+      tracks: [
+        { num: '/01', title: 'Full-Stack Development', meta: 'React · Node · SQL · Deploys', desc: 'Frontend to database to production. Build and ship a real multi-user application end to end.' },
+        { num: '/02', title: 'Frontend Engineering', meta: 'React · Design systems · APIs', desc: 'Pixel-perfect, production-grade interfaces — components, state, performance and real code review.' },
+        { num: '/03', title: 'Backend & APIs', meta: 'Node · Databases · Auth · Cloud', desc: 'Robust APIs, data modelling, authentication and deployment with monitoring and backups.' },
+        { num: '/04', title: 'Placement Bootcamp', meta: 'DSA · Aptitude · Interviews', desc: 'A focused sprint pairing live sessions with full Ekkalavya Premium access until you\u2019re placed.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

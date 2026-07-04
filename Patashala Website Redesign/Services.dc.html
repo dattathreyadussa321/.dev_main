@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#08090B;color:#F2F4F3;font-family:'Satoshi',system-ui,sans-serif;-webkit-font-smoothing:antialiased;--pd-accent:#2CC5B2;--pd-mint:#53F3CF;--pd-violet:#A78BFA}
+*{box-sizing:border-box}
+a{color:inherit}
+@keyframes pdSpin3d{from{transform:rotateX(-18deg) rotateY(0deg)}to{transform:rotateX(-18deg) rotateY(360deg)}}
+@keyframes pdPulse{0%,100%{opacity:.5}50%{opacity:1}}
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+[data-reveal].pd-in{opacity:1;transform:none}
+::selection{background:#2CC5B2;color:#08090B}
+</style>
+</helmet>
+
+<!-- ══ NAV ══ -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:16px 24px 0">
+  <div style="width:100%;max-width:1200px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 12px 12px 20px;background:rgba(10,11,14,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);border-radius:16px">
+    <a href="Home.dc.html" style="text-decoration:none;display:flex;align-items:baseline;gap:2px;font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;letter-spacing:-.02em"><span style="color:#F2F4F3">patashala</span><span style="color:var(--pd-accent)">.dev</span></a>
+    <div style="display:flex;align-items:center;gap:4px">
+      <a href="Home.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Home</a>
+      <a href="Services.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:#F2F4F3;background:rgba(255,255,255,.06)">Services</a>
+      <a href="Training.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Training</a>
+      <a href="Blog.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Blog</a>
+      <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:10px;color:rgba(242,244,243,.65)" style-hover="color:#F2F4F3;background:rgba(255,255,255,.06)">Contact</a>
+    </div>
+    <a href="Contact.dc.html" style="text-decoration:none;font-size:14px;font-weight:700;color:#08090B;background:var(--pd-mint);padding:10px 18px;border-radius:10px;box-shadow:0 0 24px rgba(83,243,207,.25)" style-hover="transform:translateY(-1px);box-shadow:0 0 36px rgba(83,243,207,.45)">Start a project</a>
+  </div>
+</div>
+
+<!-- ══ HEADER ══ -->
+<div style="position:relative;padding:180px 24px 72px;overflow:hidden">
+  <div style="position:absolute;top:-30%;left:30%;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(44,197,178,.13),transparent 65%);pointer-events:none"></div>
+  <div style="position:relative;max-width:1200px;margin:0 auto">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:20px">Services</div>
+    <h1 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(48px,7.5vw,96px);line-height:.98;letter-spacing:-.03em;max-width:900px">Everything we <span style="color:transparent;-webkit-text-stroke:1.5px rgba(242,244,243,.85)">design,</span> <span style="background:linear-gradient(92deg,var(--pd-accent),var(--pd-mint));-webkit-background-clip:text;background-clip:text;color:transparent">build</span> &amp; run</h1>
+    <p style="margin:24px 0 0;max-width:560px;font-size:18px;line-height:1.6;color:rgba(242,244,243,.65)">Six engineering services for businesses — plus <a href="#ekkalavya" style="color:var(--pd-mint);text-decoration:none;border-bottom:1px solid rgba(83,243,207,.4)">Ekkalavya</a>, our own platform that makes students placement-ready.</p>
+  </div>
+</div>
+
+<!-- ══ SERVICES GRID ══ -->
+<div style="padding:24px 24px 90px">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+    <sc-for list="{{ services }}" as="sv" hint-placeholder-count="6">
+      <div data-reveal style="display:flex;gap:24px;padding:32px;border-radius:22px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)" style-hover="border-color:rgba(83,243,207,.4);background:rgba(83,243,207,.03);transform:translateY(-3px)">
+        <div style="font-family:'Clash Display',sans-serif;font-weight:700;font-size:40px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(83,243,207,.6);flex:none">{{ sv.num }}</div>
+        <div>
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:24px;letter-spacing:-.01em">{{ sv.title }}</div>
+          <div style="font-size:15px;line-height:1.65;color:rgba(242,244,243,.6);margin-top:10px">{{ sv.desc }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            <sc-for list="{{ sv.tags }}" as="tg" hint-placeholder-count="3">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(242,244,243,.55);border:1px solid rgba(255,255,255,.12);padding:5px 10px;border-radius:99px">{{ tg }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+<!-- ══ EKKALAVYA ══ -->
+<div id="ekkalavya" style="position:relative;padding:100px 24px;background:linear-gradient(180deg,#08090B 0%,#0A1210 18%,#0A1210 82%,#08090B 100%);border-top:1px solid rgba(83,243,207,.15);border-bottom:1px solid rgba(83,243,207,.15);overflow:hidden">
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at 50% 0%,rgba(83,243,207,.14),transparent 65%);pointer-events:none"></div>
+
+  <div style="position:relative;max-width:1200px;margin:0 auto">
+    <!-- intro -->
+    <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:center;margin-bottom:80px">
+      <div data-reveal>
+        <span style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#08090B;background:var(--pd-mint);padding:6px 14px;border-radius:99px;font-weight:700"><span style="width:6px;height:6px;border-radius:50%;background:#08090B;animation:pdPulse 2s infinite"></span>Flagship platform · For students</span>
+        <h2 style="margin:24px 0 0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(52px,7vw,92px);letter-spacing:-.03em;line-height:.96">Ekkalavya</h2>
+        <p style="margin:8px 0 0;font-family:'Clash Display',sans-serif;font-weight:500;font-size:clamp(20px,2.4vw,28px);color:var(--pd-mint)">24 features. One goal: placed.</p>
+        <p style="margin:22px 0 0;max-width:520px;font-size:17px;line-height:1.65;color:rgba(242,244,243,.65)">Everything between "final year" and "offer letter" — resume, coding practice, aptitude, AI mock interviews, mentors and job tracking. Built by the same engineers who ship client platforms.</p>
+        <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+          <a href="#ekk-pricing" style="text-decoration:none;font-weight:700;font-size:15px;color:#08090B;background:var(--pd-mint);padding:15px 26px;border-radius:14px" style-hover="transform:translateY(-2px);box-shadow:0 0 44px rgba(83,243,207,.4)">Start free →</a>
+          <a href="#ekk-features" style="text-decoration:none;font-weight:500;font-size:15px;color:#F2F4F3;border:1px solid rgba(255,255,255,.18);padding:15px 26px;border-radius:14px" style-hover="border-color:rgba(83,243,207,.5)">Browse features</a>
+        </div>
+      </div>
+      <!-- CSS 3D cube -->
+      <div data-reveal style="display:flex;justify-content:center;align-items:center;min-height:340px;perspective:900px">
+        <div style="position:relative;width:190px;height:190px;transform-style:preserve-3d;animation:pdSpin3d 14s linear infinite">
+          <div style="position:absolute;inset:0;border:1.5px solid rgba(83,243,207,.7);background:rgba(83,243,207,.06);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;font-family:'Clash Display',sans-serif;font-weight:700;font-size:56px;color:var(--pd-mint);transform:translateZ(95px)">24</div>
+          <div style="position:absolute;inset:0;border:1.5px solid rgba(83,243,207,.4);background:rgba(83,243,207,.04);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;color:rgba(83,243,207,.9);transform:rotateY(90deg) translateZ(95px)">PRACTICE</div>
+          <div style="position:absolute;inset:0;border:1.5px solid rgba(83,243,207,.4);background:rgba(83,243,207,.04);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;color:rgba(83,243,207,.9);transform:rotateY(180deg) translateZ(95px)">PLACED ✦</div>
+          <div style="position:absolute;inset:0;border:1.5px solid rgba(83,243,207,.4);background:rgba(83,243,207,.04);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.14em;color:rgba(83,243,207,.9);transform:rotateY(-90deg) translateZ(95px)">INTERVIEW</div>
+          <div style="position:absolute;inset:0;border:1.5px solid rgba(167,139,250,.45);background:rgba(167,139,250,.05);transform:rotateX(90deg) translateZ(95px)"></div>
+          <div style="position:absolute;inset:0;border:1.5px solid rgba(167,139,250,.45);background:rgba(167,139,250,.05);transform:rotateX(-90deg) translateZ(95px)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 24 features -->
+    <div id="ekk-features" data-reveal style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:36px">
+      <h3 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(28px,3.6vw,42px);letter-spacing:-.02em">All 24 features, four tracks</h3>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(242,244,243,.5)">Resume → Practice → Interview → Offer</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:96px">
+      <sc-for list="{{ tracks }}" as="tr" hint-placeholder-count="4">
+        <div data-reveal style="border:1px solid rgba(255,255,255,.09);border-radius:20px;background:rgba(8,9,11,.55);overflow:hidden">
+          <div style="padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.08);background:{{ tr.headBg }}">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:{{ tr.color }}">{{ tr.phase }}</div>
+            <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:20px;margin-top:4px">{{ tr.name }}</div>
+          </div>
+          <div style="display:grid">
+            <sc-for list="{{ tr.items }}" as="it" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid rgba(255,255,255,.05)" style-hover="background:rgba(83,243,207,.05)">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:{{ tr.color }};flex:none;width:20px">{{ it.n }}</span>
+                <span style="font-size:14px;font-weight:500;color:rgba(242,244,243,.85)">{{ it.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- pricing -->
+    <div id="ekk-pricing" data-reveal style="text-align:center;margin-bottom:44px">
+      <h3 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(28px,3.6vw,42px);letter-spacing:-.02em">Pricing that students can actually afford</h3>
+      <p style="margin:12px 0 0;font-size:15px;color:rgba(242,244,243,.55)">Start free. Upgrade when you're serious. Cancel anytime.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch">
+      <sc-for list="{{ plans }}" as="pl" hint-placeholder-count="3">
+        <div data-reveal style="position:relative;display:flex;flex-direction:column;gap:0;padding:36px 32px;border-radius:24px;border:{{ pl.border }};background:{{ pl.bg }};box-shadow:{{ pl.shadow }}">
+          <sc-if value="{{ pl.popular }}" hint-placeholder-val="{{ false }}">
+            <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#08090B;background:var(--pd-mint);padding:6px 14px;border-radius:99px;white-space:nowrap">Most popular</span>
+          </sc-if>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:{{ pl.nameColor }}">{{ pl.name }}</div>
+          <div style="display:flex;align-items:baseline;gap:6px;margin-top:14px">
+            <span style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:52px;letter-spacing:-.02em">{{ pl.price }}</span>
+            <span style="font-size:14px;color:rgba(242,244,243,.5)">{{ pl.per }}</span>
+          </div>
+          <div style="font-size:14px;color:rgba(242,244,243,.6);margin-top:6px;min-height:42px;line-height:1.5">{{ pl.tagline }}</div>
+          <div style="display:grid;gap:11px;margin:24px 0 28px;text-align:left">
+            <sc-for list="{{ pl.feats }}" as="ft" hint-placeholder-count="4">
+              <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:rgba(242,244,243,.78)"><span style="color:{{ pl.checkColor }};font-weight:700">✓</span><span>{{ ft }}</span></div>
+            </sc-for>
+          </div>
+          <a href="Contact.dc.html" style="text-decoration:none;margin-top:auto;text-align:center;font-weight:700;font-size:15px;padding:14px 20px;border-radius:12px;color:{{ pl.btnColor }};background:{{ pl.btnBg }};border:{{ pl.btnBorder }}" style-hover="transform:translateY(-2px)">{{ pl.cta }}</a>
+        </div>
+      </sc-for>
+    </div>
+    <p data-reveal style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(242,244,243,.45);margin:28px 0 0">Starter: every feature usable up to 15 times / month · Premium: unlimited everything</p>
+  </div>
+</div>
+
+<!-- ══ SOLUTIONS STRIP ══ -->
+<div style="padding:100px 24px 90px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="margin-bottom:44px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--pd-accent);margin-bottom:14px">Productized platforms</div>
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(32px,4.5vw,52px);letter-spacing:-.02em">Platforms we've productized</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ solutions }}" as="so" hint-placeholder-count="3">
+        <div data-reveal style="padding:28px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);display:flex;flex-direction:column;gap:12px" style-hover="border-color:rgba(167,139,250,.45);transform:translateY(-3px)">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--pd-violet)">{{ so.tag }}</div>
+          <div style="font-family:'Clash Display',sans-serif;font-weight:600;font-size:21px">{{ so.title }}</div>
+          <div style="font-size:14px;line-height:1.6;color:rgba(242,244,243,.55)">{{ so.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CTA + FOOTER ══ -->
+<div style="padding:0 24px 32px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div data-reveal style="text-align:center;padding:80px 32px;border-radius:28px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(ellipse at 50% -20%,rgba(44,197,178,.2),transparent 60%),#0B0D10">
+      <h2 style="margin:0;font-family:'Clash Display',sans-serif;font-weight:600;font-size:clamp(34px,5vw,60px);letter-spacing:-.02em;line-height:1.05">Not sure which service fits?</h2>
+      <p style="margin:16px auto 0;max-width:440px;font-size:16px;color:rgba(242,244,243,.6);line-height:1.6">One call. We'll give you an honest read on scope, timeline and budget.</p>
+      <a href="Contact.dc.html" style="text-decoration:none;display:inline-block;margin-top:32px;font-weight:700;font-size:16px;color:#08090B;background:var(--pd-mint);padding:16px 30px;border-radius:14px" style-hover="transform:translateY(-2px);box-shadow:0 0 50px rgba(83,243,207,.45)">Book a consultation</a>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:36px 8px 20px;font-size:12.5px;color:rgba(242,244,243,.4)">
+      <span>© 2026 Patashala.Dev · <a href="Home.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Home</a> · <a href="Training.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Training</a> · <a href="Contact.dc.html" style="color:rgba(242,244,243,.55);text-decoration:none">Contact</a></span>
+      <span style="font-family:'JetBrains Mono',monospace">info@patashala.dev · Hyderabad, India</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440}, &quot;accent&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#53F3CF&quot;, &quot;options&quot;: [&quot;#53F3CF&quot;, &quot;#C6FF3E&quot;, &quot;#A78BFA&quot;, &quot;#5EB0FF&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Theme&quot;}, &quot;highlightPlan&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;starter&quot;, &quot;options&quot;: [&quot;free&quot;, &quot;starter&quot;, &quot;premium&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Ekkalavya&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.initReveals();
+    this.applyAccent();
+    if (location.hash) {
+      const el = document.querySelector(location.hash);
+      if (el) setTimeout(() => { const y = el.getBoundingClientRect().top + window.scrollY - 90; window.scrollTo({ top: y }); }, 150);
+    }
+  }
+  componentDidUpdate() { this.applyAccent(); }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); }
+
+  applyAccent() {
+    document.body.style.setProperty('--pd-mint', this.props.accent ?? '#53F3CF');
+  }
+
+  initReveals() {
+    const els = document.querySelectorAll('[data-reveal]');
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('pd-in'); this._io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    els.forEach(el => this._io.observe(el));
+    setTimeout(() => { document.querySelectorAll('[data-reveal]:not(.pd-in)').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight) el.classList.add('pd-in');
+    }); }, 1800);
+  }
+
+  renderVals() {
+    const highlight = this.props.highlightPlan ?? 'starter';
+    const mint = 'var(--pd-mint)';
+    const mkPlan = (p) => {
+      const hot = p.id === highlight;
+      return Object.assign({}, p, {
+        popular: hot,
+        border: hot ? '1.5px solid rgba(83,243,207,.65)' : '1px solid rgba(255,255,255,.1)',
+        bg: hot ? 'linear-gradient(180deg,rgba(83,243,207,.09),rgba(83,243,207,.02) 60%),#0B0F0E' : 'rgba(255,255,255,.02)',
+        shadow: hot ? '0 0 70px rgba(83,243,207,.14)' : 'none',
+        nameColor: hot ? mint : 'rgba(242,244,243,.55)',
+        checkColor: hot ? mint : 'rgba(242,244,243,.45)',
+        btnColor: hot ? '#08090B' : '#F2F4F3',
+        btnBg: hot ? mint : 'rgba(255,255,255,.05)',
+        btnBorder: hot ? 'none' : '1px solid rgba(255,255,255,.16)',
+      });
+    };
+    return {
+      services: [
+        { num: '01', title: 'SaaS Application Development', desc: 'Multi-tenant SaaS platforms built for real business workflows — subscriptions, role-based access, billing, and dashboards that scale from first customer to thousands.', tags: ['Multi-tenancy', 'Billing', 'Analytics'] },
+        { num: '02', title: 'Full-Stack Web Apps', desc: 'End-to-end web applications with modern frontends, robust APIs, and reliable databases — designed, built, tested, and shipped by one accountable team.', tags: ['React / Next.js', 'APIs', 'Databases'] },
+        { num: '03', title: 'Custom LMS Development', desc: 'Learning management systems built around how your institute actually teaches — courses, batches, live classes, assessments, certificates, and payments in one platform.', tags: ['Live classes', 'Assessments', 'Payments'] },
+        { num: '04', title: 'Custom CRM Development', desc: 'CRM systems tuned to education and services businesses — enquiry capture, admissions pipelines, counsellor workflows, follow-ups, and revenue visibility.', tags: ['Pipelines', 'Automation', 'WhatsApp-ready'] },
+        { num: '05', title: 'EdTech Product Development', desc: 'Product engineering for education businesses — from online academies and assessment engines to full learning ecosystems with mobile-first experiences.', tags: ['Mobile-first', 'Assessment engines', 'Ecosystems'] },
+        { num: '06', title: 'UI/UX Design & Frontend', desc: 'Interfaces that look premium and ship as production code — design systems, prototypes, and pixel-perfect React frontends from the same team.', tags: ['Design systems', 'Prototypes', 'React'] },
+      ],
+      tracks: [
+        { phase: 'Track A · Profile', name: 'Stand out', color: '#53F3CF', headBg: 'linear-gradient(135deg,rgba(83,243,207,.12),transparent)', items: [
+          { n: '01', t: 'AI Resume Builder' }, { n: '02', t: 'ATS Score Checker' }, { n: '03', t: 'LinkedIn Optimizer' }, { n: '04', t: 'GitHub Profile Review' }, { n: '05', t: 'Portfolio Builder' }, { n: '06', t: 'Guided Project Builds' },
+        ] },
+        { phase: 'Track B · Practice', name: 'Sharpen up', color: '#5EE0FF', headBg: 'linear-gradient(135deg,rgba(94,224,255,.12),transparent)', items: [
+          { n: '07', t: 'DSA Practice Sheets' }, { n: '08', t: 'Coding Challenges' }, { n: '09', t: 'Aptitude Drills' }, { n: '10', t: 'Logical Reasoning' }, { n: '11', t: 'Verbal Ability' }, { n: '12', t: 'Company-Pattern Mock Tests' },
+        ] },
+        { phase: 'Track C · Interview', name: 'Face anyone', color: '#A78BFA', headBg: 'linear-gradient(135deg,rgba(167,139,250,.12),transparent)', items: [
+          { n: '13', t: 'AI Mock Interviews' }, { n: '14', t: 'HR Question Bank' }, { n: '15', t: 'Group Discussion Rooms' }, { n: '16', t: 'Communication Practice' }, { n: '17', t: 'Company-wise Papers' }, { n: '18', t: 'Salary Negotiation Playbook' },
+        ] },
+        { phase: 'Track D · Launch', name: 'Get placed', color: '#FFC46B', headBg: 'linear-gradient(135deg,rgba(255,196,107,.12),transparent)', items: [
+          { n: '19', t: 'Job & Internship Alerts' }, { n: '20', t: 'Application Tracker' }, { n: '21', t: '1:1 Mentor Sessions' }, { n: '22', t: 'Peer Community' }, { n: '23', t: 'Course Certificates' }, { n: '24', t: 'Placement Analytics' },
+        ] },
+      ],
+      plans: [
+        mkPlan({ id: 'free', name: 'Free', price: '₹0', per: 'forever', tagline: 'Taste the platform with limited features.', cta: 'Start free', feats: ['Access to selected features', 'Limited attempts per feature', 'Peer community access', 'No card required'] }),
+        mkPlan({ id: 'starter', name: 'Starter', price: '₹399', per: '/ month', tagline: 'All 24 features — each usable up to 15 times a month.', cta: 'Get Starter', feats: ['All 24 features unlocked', '15 uses per feature / month', 'AI mock interviews & ATS checks', 'Progress & placement tracking'] }),
+        mkPlan({ id: 'premium', name: 'Premium', price: '₹899', per: '/ month', tagline: 'Everything, unlimited. For the final sprint to your offer.', cta: 'Go Premium', feats: ['All 24 features — unlimited use', 'Unlimited AI mock interviews', 'Priority 1:1 mentor slots', 'Everything in Starter'] }),
+      ],
+      solutions: [
+        { tag: 'Advanced LMS', title: "Your institute's learning platform, owned outright", desc: 'Courses, live + recorded classes, assessments, certificates, payments, and dashboards for every role.' },
+        { tag: 'CRM for EdTech', title: 'From first enquiry to confirmed admission', desc: 'Lead capture, counsellor pipelines, follow-up reminders, batch and payment tracking.' },
+        { tag: 'Agri Rover', title: 'Farmer-first agricultural innovation', desc: 'Rover-based field monitoring, data collection, and smart farming systems — our AgriTech track.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
